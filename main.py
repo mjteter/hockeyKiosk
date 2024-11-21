@@ -77,20 +77,54 @@ class League(threading.Thread):
 
         response = requests.get('https://api-web.nhle.com/v1/standings/now').json()
 
+        # standings = {'requestTime': dt.datetime.now().strftime(TIME_FORMAT), 'Central': [], 'Pacific': [],
+        #              'Atlantic': [], 'Metropolitan': [], 'Western': [], 'Eastern': []}
+        # for team in response['standings']:
+        #     team_red = [team['teamName']['default'], team['teamAbbrev']['default'], int(team['gamesPlayed']),
+        #                 int(team['wins']), int(team['losses']), int(team['otLosses']), int(team['points']),
+        #                 float(team['pointPctg'])]
+        #     if len(standings[team['divisionName']]) < 3:
+        #         standings[team['divisionName']].append(team_red)
+        #     else:
+        #         standings[team['conferenceName']].append(team_red)
+        #
+        # for conf in standings:
+        #     if conf in ('Western', 'Eastern'):
+        #         standings[conf] = sorted(standings[conf], key=lambda x: (-x[6], -x[7]))
+
+
         standings = {'requestTime': dt.datetime.now().strftime(TIME_FORMAT), 'Central': {}, 'Pacific': {},
                      'Atlantic': {}, 'Metropolitan': {}, 'Western': {}, 'Eastern': {}}
+        # eastern_conf = {}
+        # western_conf = {}
+        # {k: v for k, v in sorted(x.items(), key=lambda item: item[1])}
+        # dict(sorted(x.items(), key=lambda item: item[1]))
         for team in response['standings']:
-            team_red = [team['teamName']['default'], team['teamAbbrev']['default'], int(team['gamesPlayed']),
-                        int(team['wins']), int(team['losses']), int(team['otLosses']), int(team['points']),
-                        float(team['pointPctg'])]
             if len(standings[team['divisionName']]) < 3:
-                standings[team['divisionName']].append(team_red)
+                standings[team['divisionName']][team['teamAbbrev']] = {'gamesPlayed': team['gamesPlayed'],
+                                                                       'wins': team['wins'], 'losses': team['losses'],
+                                                                       'otLosses': team['otLosses'],
+                                                                       'points': team['points'],
+                                                                       'pointPctg': team['pointPctg']}
             else:
-                standings[team['conferenceName']].append(team_red)
+                standings[team['conferenceName']][team['teamAbbrev']] = {'gamesPlayed': team['gamesPlayed'],
+                                                                         'wins': team['wins'], 'losses': team['losses'],
+                                                                         'otLosses': team['otLosses'],
+                                                                         'points': team['points'],
+                                                                         'pointPctg': team['pointPctg']}
+            # elif team['conferenceName'] == 'Eastern':
+            #     eastern_conf[team['teamAbbrev']] = {'gamesPlayed': team['gamesPlayed'], 'wins': team['wins'],
+            #                                         'losses': team['losses'], 'otLosses': team['otLosses'],
+            #                                         'points': team['points'], 'pointPctg': team['pointPctg']}
+            # else:
+            #     western_conf[team['teamAbbrev']] = {'gamesPlayed': team['gamesPlayed'], 'wins': team['wins'],
+            #                                         'losses': team['losses'], 'otLosses': team['otLosses'],
+            #                                         'points': team['points'], 'pointPctg': team['pointPctg']}
 
         for conf in standings:
             if conf in ('Western', 'Eastern'):
-                standings[conf] = sorted(standings[conf], key=lambda x: (-x[6], -x[7]))
+                standings[conf] = dict(sorted(standings[conf].items(),
+                                              key=lambda item: (-item[1]['points'], -item[1]['pointPctg'])))
 
         # if pass_data:
         self.resp_queue.put(('save_standings', [standings], {}))
