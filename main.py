@@ -77,8 +77,8 @@ class League(threading.Thread):
 
         response = requests.get('https://api-web.nhle.com/v1/standings/now').json()
 
-        standings = {'requestTime': dt.datetime.now().strftime(TIME_FORMAT), 'Central': [], 'Pacific': [],
-                     'Atlantic': [], 'Metropolitan': [], 'Western': [], 'Eastern': []}
+        standings = {'requestTime': dt.datetime.now().strftime(TIME_FORMAT), 'Central': {}, 'Pacific': {},
+                     'Atlantic': {}, 'Metropolitan': {}, 'Western': {}, 'Eastern': {}}
         for team in response['standings']:
             team_red = [team['teamName']['default'], team['teamAbbrev']['default'], int(team['gamesPlayed']),
                         int(team['wins']), int(team['losses']), int(team['otLosses']), int(team['points']),
