@@ -1,5 +1,5 @@
 {
-  "requestTime": "2024-11-20 20:27:42",
+  "requestTime": "2024-11-21 15:57:15",
   "team": "PHI",
   "games": [
     {
@@ -292,12 +292,12 @@
       "id": 2024020302,
       "startTimeUTC": "2024-11-21T00:30:00Z",
       "gameType": 2,
-      "gameState": "LIVE",
+      "gameState": "OFF",
       "awayTeam": "CAR",
       "homeTeam": "PHI",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 4,
+      "homeScore": 1,
+      "gameOutcome": "REG"
     },
     {
       "id": 2024020318,

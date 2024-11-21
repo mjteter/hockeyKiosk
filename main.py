@@ -101,13 +101,13 @@ class League(threading.Thread):
         # dict(sorted(x.items(), key=lambda item: item[1]))
         for team in response['standings']:
             if len(standings[team['divisionName']]) < 3:
-                standings[team['divisionName']][team['teamAbbrev']] = {'gamesPlayed': team['gamesPlayed'],
+                standings[team['divisionName']][team['teamAbbrev']['default']] = {'gamesPlayed': team['gamesPlayed'],
                                                                        'wins': team['wins'], 'losses': team['losses'],
                                                                        'otLosses': team['otLosses'],
                                                                        'points': team['points'],
                                                                        'pointPctg': team['pointPctg']}
             else:
-                standings[team['conferenceName']][team['teamAbbrev']] = {'gamesPlayed': team['gamesPlayed'],
+                standings[team['conferenceName']][team['teamAbbrev']['default']] = {'gamesPlayed': team['gamesPlayed'],
                                                                          'wins': team['wins'], 'losses': team['losses'],
                                                                          'otLosses': team['otLosses'],
                                                                          'points': team['points'],
@@ -542,7 +542,7 @@ def main():
         bank_thread.start()
 
         # sleep for testing
-        sleep(70)
+        sleep(5)
     except KeyboardInterrupt:
         _logger.debug('Interrupt received, setting quit flag.')
         kill_flag.set()

@@ -1,335 +1,271 @@
 {
-  "requestTime": "2024-11-20 20:27:41",
-  "Central": [
-    [
-      "Winnipeg Jets",
-      "WPG",
-      19,
-      16,
-      3,
-      0,
-      32,
-      0.842105
-    ],
-    [
-      "Minnesota Wild",
-      "MIN",
-      18,
-      12,
-      3,
-      3,
-      27,
-      0.75
-    ],
-    [
-      "Dallas Stars",
-      "DAL",
-      17,
-      11,
-      6,
-      0,
-      22,
-      0.647059
-    ]
-  ],
-  "Pacific": [
-    [
-      "Vegas Golden Knights",
-      "VGK",
-      18,
-      11,
-      5,
-      2,
-      24,
-      0.666667
-    ],
-    [
-      "Los Angeles Kings",
-      "LAK",
-      19,
-      10,
-      6,
-      3,
-      23,
-      0.605263
-    ],
-    [
-      "Calgary Flames",
-      "CGY",
-      19,
-      10,
-      6,
-      3,
-      23,
-      0.605263
-    ]
-  ],
-  "Atlantic": [
-    [
-      "Florida Panthers",
-      "FLA",
-      19,
-      12,
-      6,
-      1,
-      25,
-      0.657895
-    ],
-    [
-      "Toronto Maple Leafs",
-      "TOR",
-      19,
-      11,
-      6,
-      2,
-      24,
-      0.631579
-    ],
-    [
-      "Tampa Bay Lightning",
-      "TBL",
-      17,
-      10,
-      6,
-      1,
-      21,
-      0.617647
-    ]
-  ],
-  "Metropolitan": [
-    [
-      "Washington Capitals",
-      "WSH",
-      18,
-      13,
-      4,
-      1,
-      27,
-      0.75
-    ],
-    [
-      "Carolina Hurricanes",
-      "CAR",
-      17,
-      13,
-      4,
-      0,
-      26,
-      0.764706
-    ],
-    [
-      "New Jersey Devils",
-      "NJD",
-      21,
-      12,
-      7,
-      2,
-      26,
-      0.619048
-    ]
-  ],
-  "Western": [
-    [
-      "Edmonton Oilers",
-      "EDM",
-      20,
-      10,
-      8,
-      2,
-      22,
-      0.55
-    ],
-    [
-      "Vancouver Canucks",
-      "VAN",
-      18,
-      9,
-      6,
-      3,
-      21,
-      0.583333
-    ],
-    [
-      "Colorado Avalanche",
-      "COL",
-      19,
-      10,
-      9,
-      0,
-      20,
-      0.526316
-    ],
-    [
-      "Seattle Kraken",
-      "SEA",
-      19,
-      9,
-      9,
-      1,
-      19,
-      0.5
-    ],
-    [
-      "Anaheim Ducks",
-      "ANA",
-      18,
-      8,
-      8,
-      2,
-      18,
-      0.5
-    ],
-    [
-      "Utah Hockey Club",
-      "UTA",
-      18,
-      7,
-      8,
-      3,
-      17,
-      0.472222
-    ],
-    [
-      "St. Louis Blues",
-      "STL",
-      20,
-      8,
-      11,
-      1,
-      17,
-      0.425
-    ],
-    [
-      "San Jose Sharks",
-      "SJS",
-      20,
-      6,
-      10,
-      4,
-      16,
-      0.4
-    ],
-    [
-      "Nashville Predators",
-      "NSH",
-      19,
-      6,
-      10,
-      3,
-      15,
-      0.394737
-    ],
-    [
-      "Chicago Blackhawks",
-      "CHI",
-      19,
-      6,
-      12,
-      1,
-      13,
-      0.342105
-    ]
-  ],
-  "Eastern": [
-    [
-      "New York Rangers",
-      "NYR",
-      17,
-      12,
-      4,
-      1,
-      25,
-      0.735294
-    ],
-    [
-      "New York Islanders",
-      "NYI",
-      19,
-      7,
-      7,
-      5,
-      19,
-      0.5
-    ],
-    [
-      "Boston Bruins",
-      "BOS",
-      20,
-      8,
-      9,
-      3,
-      19,
-      0.475
-    ],
-    [
-      "Philadelphia Flyers",
-      "PHI",
-      19,
-      8,
-      9,
-      2,
-      18,
-      0.473684
-    ],
-    [
-      "Pittsburgh Penguins",
-      "PIT",
-      21,
-      7,
-      10,
-      4,
-      18,
-      0.428571
-    ],
-    [
-      "Ottawa Senators",
-      "OTT",
-      18,
-      8,
-      9,
-      1,
-      17,
-      0.472222
-    ],
-    [
-      "Buffalo Sabres",
-      "BUF",
-      18,
-      8,
-      9,
-      1,
-      17,
-      0.472222
-    ],
-    [
-      "Columbus Blue Jackets",
-      "CBJ",
-      18,
-      7,
-      9,
-      2,
-      16,
-      0.444444
-    ],
-    [
-      "Detroit Red Wings",
-      "DET",
-      18,
-      7,
-      9,
-      2,
-      16,
-      0.444444
-    ],
-    [
-      "Montr\u00e9al Canadiens",
-      "MTL",
-      19,
-      7,
-      10,
-      2,
-      16,
-      0.421053
-    ]
-  ]
+  "requestTime": "2024-11-21 15:57:14",
+  "Central": {
+    "WPG": {
+      "gamesPlayed": 19,
+      "wins": 16,
+      "losses": 3,
+      "otLosses": 0,
+      "points": 32,
+      "pointPctg": 0.842105
+    },
+    "MIN": {
+      "gamesPlayed": 18,
+      "wins": 12,
+      "losses": 3,
+      "otLosses": 3,
+      "points": 27,
+      "pointPctg": 0.75
+    },
+    "DAL": {
+      "gamesPlayed": 18,
+      "wins": 12,
+      "losses": 6,
+      "otLosses": 0,
+      "points": 24,
+      "pointPctg": 0.666667
+    }
+  },
+  "Pacific": {
+    "VGK": {
+      "gamesPlayed": 19,
+      "wins": 11,
+      "losses": 6,
+      "otLosses": 2,
+      "points": 24,
+      "pointPctg": 0.631579
+    },
+    "CGY": {
+      "gamesPlayed": 19,
+      "wins": 10,
+      "losses": 6,
+      "otLosses": 3,
+      "points": 23,
+      "pointPctg": 0.605263
+    },
+    "LAK": {
+      "gamesPlayed": 20,
+      "wins": 10,
+      "losses": 7,
+      "otLosses": 3,
+      "points": 23,
+      "pointPctg": 0.575
+    }
+  },
+  "Atlantic": {
+    "TOR": {
+      "gamesPlayed": 20,
+      "wins": 12,
+      "losses": 6,
+      "otLosses": 2,
+      "points": 26,
+      "pointPctg": 0.65
+    },
+    "FLA": {
+      "gamesPlayed": 19,
+      "wins": 12,
+      "losses": 6,
+      "otLosses": 1,
+      "points": 25,
+      "pointPctg": 0.657895
+    },
+    "TBL": {
+      "gamesPlayed": 17,
+      "wins": 10,
+      "losses": 6,
+      "otLosses": 1,
+      "points": 21,
+      "pointPctg": 0.617647
+    }
+  },
+  "Metropolitan": {
+    "CAR": {
+      "gamesPlayed": 18,
+      "wins": 14,
+      "losses": 4,
+      "otLosses": 0,
+      "points": 28,
+      "pointPctg": 0.777778
+    },
+    "WSH": {
+      "gamesPlayed": 18,
+      "wins": 13,
+      "losses": 4,
+      "otLosses": 1,
+      "points": 27,
+      "pointPctg": 0.75
+    },
+    "NJD": {
+      "gamesPlayed": 21,
+      "wins": 12,
+      "losses": 7,
+      "otLosses": 2,
+      "points": 26,
+      "pointPctg": 0.619048
+    }
+  },
+  "Western": {
+    "EDM": {
+      "gamesPlayed": 20,
+      "wins": 10,
+      "losses": 8,
+      "otLosses": 2,
+      "points": 22,
+      "pointPctg": 0.55
+    },
+    "VAN": {
+      "gamesPlayed": 18,
+      "wins": 9,
+      "losses": 6,
+      "otLosses": 3,
+      "points": 21,
+      "pointPctg": 0.583333
+    },
+    "SEA": {
+      "gamesPlayed": 20,
+      "wins": 10,
+      "losses": 9,
+      "otLosses": 1,
+      "points": 21,
+      "pointPctg": 0.525
+    },
+    "COL": {
+      "gamesPlayed": 19,
+      "wins": 10,
+      "losses": 9,
+      "otLosses": 0,
+      "points": 20,
+      "pointPctg": 0.526316
+    },
+    "ANA": {
+      "gamesPlayed": 18,
+      "wins": 8,
+      "losses": 8,
+      "otLosses": 2,
+      "points": 18,
+      "pointPctg": 0.5
+    },
+    "UTA": {
+      "gamesPlayed": 18,
+      "wins": 7,
+      "losses": 8,
+      "otLosses": 3,
+      "points": 17,
+      "pointPctg": 0.472222
+    },
+    "STL": {
+      "gamesPlayed": 20,
+      "wins": 8,
+      "losses": 11,
+      "otLosses": 1,
+      "points": 17,
+      "pointPctg": 0.425
+    },
+    "SJS": {
+      "gamesPlayed": 21,
+      "wins": 6,
+      "losses": 11,
+      "otLosses": 4,
+      "points": 16,
+      "pointPctg": 0.380952
+    },
+    "NSH": {
+      "gamesPlayed": 20,
+      "wins": 6,
+      "losses": 11,
+      "otLosses": 3,
+      "points": 15,
+      "pointPctg": 0.375
+    },
+    "CHI": {
+      "gamesPlayed": 19,
+      "wins": 6,
+      "losses": 12,
+      "otLosses": 1,
+      "points": 13,
+      "pointPctg": 0.342105
+    }
+  },
+  "Eastern": {
+    "NYR": {
+      "gamesPlayed": 17,
+      "wins": 12,
+      "losses": 4,
+      "otLosses": 1,
+      "points": 25,
+      "pointPctg": 0.735294
+    },
+    "BUF": {
+      "gamesPlayed": 19,
+      "wins": 9,
+      "losses": 9,
+      "otLosses": 1,
+      "points": 19,
+      "pointPctg": 0.5
+    },
+    "NYI": {
+      "gamesPlayed": 19,
+      "wins": 7,
+      "losses": 7,
+      "otLosses": 5,
+      "points": 19,
+      "pointPctg": 0.5
+    },
+    "BOS": {
+      "gamesPlayed": 20,
+      "wins": 8,
+      "losses": 9,
+      "otLosses": 3,
+      "points": 19,
+      "pointPctg": 0.475
+    },
+    "PHI": {
+      "gamesPlayed": 20,
+      "wins": 8,
+      "losses": 10,
+      "otLosses": 2,
+      "points": 18,
+      "pointPctg": 0.45
+    },
+    "PIT": {
+      "gamesPlayed": 21,
+      "wins": 7,
+      "losses": 10,
+      "otLosses": 4,
+      "points": 18,
+      "pointPctg": 0.428571
+    },
+    "OTT": {
+      "gamesPlayed": 18,
+      "wins": 8,
+      "losses": 9,
+      "otLosses": 1,
+      "points": 17,
+      "pointPctg": 0.472222
+    },
+    "CBJ": {
+      "gamesPlayed": 18,
+      "wins": 7,
+      "losses": 9,
+      "otLosses": 2,
+      "points": 16,
+      "pointPctg": 0.444444
+    },
+    "DET": {
+      "gamesPlayed": 18,
+      "wins": 7,
+      "losses": 9,
+      "otLosses": 2,
+      "points": 16,
+      "pointPctg": 0.444444
+    },
+    "MTL": {
+      "gamesPlayed": 19,
+      "wins": 7,
+      "losses": 10,
+      "otLosses": 2,
+      "points": 16,
+      "pointPctg": 0.421053
+    }
+  }
 }
