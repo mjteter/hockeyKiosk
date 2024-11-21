@@ -166,11 +166,13 @@ class League(threading.Thread):
     def get_game(self, game_id):  # , pass_data=False):
         _logger.debug(f'Get live data from game {game_id}')
 
-        response = requests.get('https://api-web.nhle.com/v1/gamecenter/' + game_id + '/play-by-play').json()
+        response = requests.get('https://api-web.nhle.com/v1/gamecenter/' + str(game_id) + '/play-by-play').json()
 
-        game = {'awayTeam': response['awayTeam'], 'homeTeam': response['homeTeam'], 'gameState': response['gameState'],
+        game = {'awayTeam': response['awayTeam']['abbrev'], 'homeTeam': response['homeTeam']['abbrev'],
                 'awayScore': response['awayTeam']['score'], 'homeScore': response['homeTeam']['score'],
-                'awaySog': response['awayTeam']['sog'], 'homeSog': response['homeTeam']['sog'], 'plays': []}
+                'awaySog': response['awayTeam']['sog'], 'homeSog': response['homeTeam']['sog'],
+                'gameState': response['gameState'], 'period': response['periodDescriptor']['number'],
+                'clock': response['clock']['timeRemaining'], 'plays': []}
 
         for play in response['plays']:
             try:
@@ -181,6 +183,7 @@ class League(threading.Thread):
             except KeyError:
                 _logger.error('KeyError in League().get_game()')
 
+        # _logger.debug(f'league dump {game}')
         # if pass_data:
         self.resp_queue.put(('update_live_game', [game], {}))
 
@@ -246,6 +249,7 @@ class Bank(threading.Thread):
 
         # load league standings
         try:
+            _logger.debug('Bank().init retrieve standings.json')
             with open('resources/standings.json') as f:
                 self.standings = json.load(f)
                 # refresh standings if old
@@ -253,12 +257,14 @@ class Bank(threading.Thread):
                         > dt.timedelta(hours=6):
                     self.league_queue.put(('get_standings', [], {}))  # 'pass_data': True}))
         except FileNotFoundError:
+            _logger.debug('Bank().init standings.json does not exist, make request')
             self.standings = {}
             # make request to get league standings immediately rather than wait
             self.league_queue.put(('get_standings', [], {}))  # 'pass_data': True}))
 
         # load team schedule
         try:
+            _logger.debug('Bank().init retrieve schedule.json')
             with open('resources/schedule.json') as f:
                 self.schedule = json.load(f)
                 # refresh schedule if old
@@ -270,6 +276,7 @@ class Bank(threading.Thread):
             # self.check_games_time = dt.datetime.now()
             self.set_game_ids()
         except FileNotFoundError:
+            _logger.debug('Bank().init schedule.json does not exist, make request')
             self.schedule = {}
             # make request to get league standings immediately rather than wait
             self.league_queue.put(('get_schedule', [], {}))  # 'pass_data': True}))
@@ -278,6 +285,7 @@ class Bank(threading.Thread):
 
         # load team roster
         try:
+            _logger.debug('Bank().init retrieve roster.json')
             with open('resources/roster.json') as f:
                 self.roster = json.load(f)
                 # refresh roster if old
@@ -286,6 +294,7 @@ class Bank(threading.Thread):
                         > dt.timedelta(hours=6):
                     self.league_queue.put(('get_roster', [], {}))  # 'pass_data': True}))
         except FileNotFoundError:
+            _logger.debug('Bank().init roster.json does not exist, make request')
             self.roster = {}
             # make request to get league standings immediately rather than wait
             self.league_queue.put(('get_roster', [], {}))  # 'pass_data': True}))
@@ -317,6 +326,7 @@ class Bank(threading.Thread):
         # if current_game is not set, then it is safe to run and possibly update game_update_time
         # this should be run in case of schedule changes
         if not self.current_game:
+            _logger.debug('Call set_game_ids() from save_schedule')
             self.set_game_ids()
         return
 
@@ -329,7 +339,7 @@ class Bank(threading.Thread):
         return
 
     def set_game_ids(self):
-        _logger.debug('Bank(): set game ids')
+        _logger.debug('Bank(): set_game_ids()')
         # if not self.schedule:
         #     self.check_games_time = dt.datetime.now().astimezone(None) + dt.timedelta(seconds=5)
         #     return
@@ -365,13 +375,15 @@ class Bank(threading.Thread):
                         self.current_game = {}
                         self.game_update_time = next_gt - dt.timedelta(minutes=15)
                     else:
+                        _logger.debug('Bank().set_game_ids: found likely live game, but live_game not set')
                         self.current_game = game
                         self.game_update_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=1)
                 except KeyError:
+                    _logger.debug('Bank().set_game_ids: found likely live game')
                     # live_game hasn't been set yet, assume if killed elsewhere, then game_update_time would be in far
                     # future
                     self.current_game = game
-                    self.game_update_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=1)
+                    self.game_update_time = dt.datetime.now().astimezone(None)  # + dt.timedelta(minutes=1)
                 break
 
             elif last_gt <= current_dt <= game_time:  # in between games
@@ -390,6 +402,11 @@ class Bank(threading.Thread):
         return
 
     def update_live_game(self, game):
+        _logger.debug('Bank(): update_live_game')
+        _logger.info(f'Bank().update_live_game: {game["awayTeam"]}: {game["awayScore"]} @ '
+                     f'{game["homeTeam"]}: {game["homeScore"]} | Period {game["period"]}, {game["clock"]}')
+        # _logger.debug(f'bank dump {game}')
+
         if game['gameState'] in ('OFF', 'FINAL'):
             # game is over, set live_game (play by play) and current_game (metadata) to empty sets, set next time
             self.live_game = {}
@@ -491,7 +508,7 @@ def main():
         bank_thread.start()
 
         # sleep for testing
-        sleep(5)
+        sleep(70)
     except KeyboardInterrupt:
         _logger.debug('Interrupt received, setting quit flag.')
         kill_flag.set()
