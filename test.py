@@ -1,16 +1,29 @@
+import time
+import sys, pygame
+pygame.init()
 
+size = width, height = 480, 320
+speed = [2, 2]
+black = 0, 0, 0
 
-x = {
-     'SEA': {'wins': 9, 'losses': 9, 'points': 18, 'pointPctg': 0.48},
-     'EDM': {'wins': 10, 'losses': 8, 'points': 22, 'pointPctg': 0.55},
-     'COL': {'wins': 10, 'losses': 9, 'points': 20, 'pointPctg': 0.526},
-     'VAN': {'wins': 9, 'losses': 6, 'points': 21, 'pointPctg': 0.5833},
-     'ANA': {'wins': 8, 'losses': 8, 'points': 18, 'pointPctg': 0.5}
-     }
-# x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
-# dict(sorted(x.items(), key=lambda item: item[1]))
+screen = pygame.display.set_mode(size)
 
-y = dict(sorted(x.items(), key=lambda item: (-item[1]['points'], -item[1]['pointPctg'])))
+ball = pygame.image.load("resources/bomb.gif")
+origballrect = ball.get_rect()
+ballrect = ball.get_rect()
 
-for tm in y.keys():
-    print(tm, y[tm])
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: sys.exit()
+
+    ballrect = ballrect.move(speed)
+    if ballrect.left < 0 or ballrect.right > width:
+        speed[0] = -speed[0]
+    if ballrect.top < 0 or ballrect.bottom > height:
+        speed[1] = -speed[1]
+
+    screen.fill(black)
+    screen.blit(ball, ballrect)
+    screen.blit(ball, origballrect)
+    pygame.display.flip()
+    time.sleep(0.1)
