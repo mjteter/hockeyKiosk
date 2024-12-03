@@ -72,7 +72,7 @@ def main():
         bank_thread.start()
 
         # sleep for testing
-        sleep(5)
+        sleep(125)
     except KeyboardInterrupt:
         _logger.debug('Interrupt received, setting quit flag.')
         kill_flag.set()

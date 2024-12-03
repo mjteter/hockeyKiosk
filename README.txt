@@ -87,8 +87,22 @@ source .venv/bin/activate
 pip install pigpio
 
 
-
-
+api power play from live game
+"situation": {
+    "homeTeam": {
+      "abbrev": "PHI",
+      "situationDescriptions": [
+        "PP"
+      ],
+      "strength": 5
+    },
+    "awayTeam": {
+      "abbrev": "VGK",
+      "strength": 4
+    },
+    "situationCode": "1451",
+    "timeRemaining": "01:21",
+    "secondsRemaining": 81
 
 
 

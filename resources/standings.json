@@ -1,141 +1,141 @@
 {
-  "requestTime": "2024-11-23 14:28:43",
+  "requestTime": "2024-11-25 21:13:48",
   "Central": {
     "WPG": {
-      "gamesPlayed": 20,
+      "gamesPlayed": 21,
       "wins": 17,
-      "losses": 3,
+      "losses": 4,
       "otLosses": 0,
       "points": 34,
-      "pointPctg": 0.85
+      "pointPctg": 0.809524
     },
     "MIN": {
-      "gamesPlayed": 19,
+      "gamesPlayed": 20,
       "wins": 13,
       "losses": 3,
-      "otLosses": 3,
-      "points": 29,
-      "pointPctg": 0.763158
+      "otLosses": 4,
+      "points": 30,
+      "pointPctg": 0.75
     },
     "DAL": {
-      "gamesPlayed": 18,
-      "wins": 12,
+      "gamesPlayed": 19,
+      "wins": 13,
       "losses": 6,
       "otLosses": 0,
-      "points": 24,
-      "pointPctg": 0.666667
+      "points": 26,
+      "pointPctg": 0.684211
     }
   },
   "Pacific": {
     "VGK": {
-      "gamesPlayed": 20,
-      "wins": 12,
+      "gamesPlayed": 21,
+      "wins": 13,
       "losses": 6,
       "otLosses": 2,
-      "points": 26,
-      "pointPctg": 0.65
+      "points": 28,
+      "pointPctg": 0.666667
     },
     "CGY": {
-      "gamesPlayed": 20,
-      "wins": 11,
+      "gamesPlayed": 21,
+      "wins": 12,
       "losses": 6,
       "otLosses": 3,
-      "points": 25,
-      "pointPctg": 0.625
+      "points": 27,
+      "pointPctg": 0.642857
     },
     "LAK": {
-      "gamesPlayed": 20,
-      "wins": 10,
+      "gamesPlayed": 21,
+      "wins": 11,
       "losses": 7,
       "otLosses": 3,
-      "points": 23,
-      "pointPctg": 0.575
+      "points": 25,
+      "pointPctg": 0.595238
     }
   },
   "Atlantic": {
     "TOR": {
-      "gamesPlayed": 20,
-      "wins": 12,
+      "gamesPlayed": 21,
+      "wins": 13,
       "losses": 6,
       "otLosses": 2,
-      "points": 26,
-      "pointPctg": 0.65
+      "points": 28,
+      "pointPctg": 0.666667
     },
     "FLA": {
-      "gamesPlayed": 20,
+      "gamesPlayed": 21,
       "wins": 12,
-      "losses": 7,
+      "losses": 8,
       "otLosses": 1,
       "points": 25,
-      "pointPctg": 0.625
+      "pointPctg": 0.595238
     },
-    "TBL": {
-      "gamesPlayed": 18,
-      "wins": 10,
-      "losses": 6,
-      "otLosses": 2,
-      "points": 22,
-      "pointPctg": 0.611111
+    "BUF": {
+      "gamesPlayed": 21,
+      "wins": 11,
+      "losses": 9,
+      "otLosses": 1,
+      "points": 23,
+      "pointPctg": 0.547619
     }
   },
   "Metropolitan": {
-    "CAR": {
-      "gamesPlayed": 19,
-      "wins": 14,
-      "losses": 5,
-      "otLosses": 0,
-      "points": 28,
-      "pointPctg": 0.736842
-    },
     "NJD": {
-      "gamesPlayed": 22,
-      "wins": 13,
+      "gamesPlayed": 23,
+      "wins": 14,
       "losses": 7,
       "otLosses": 2,
-      "points": 28,
-      "pointPctg": 0.636364
+      "points": 30,
+      "pointPctg": 0.652174
     },
-    "WSH": {
-      "gamesPlayed": 19,
-      "wins": 13,
+    "CAR": {
+      "gamesPlayed": 20,
+      "wins": 14,
       "losses": 5,
       "otLosses": 1,
+      "points": 29,
+      "pointPctg": 0.725
+    },
+    "WSH": {
+      "gamesPlayed": 20,
+      "wins": 13,
+      "losses": 6,
+      "otLosses": 1,
       "points": 27,
-      "pointPctg": 0.710526
+      "pointPctg": 0.675
     }
   },
   "Western": {
     "COL": {
-      "gamesPlayed": 20,
-      "wins": 11,
+      "gamesPlayed": 21,
+      "wins": 12,
       "losses": 9,
       "otLosses": 0,
-      "points": 22,
-      "pointPctg": 0.55
+      "points": 24,
+      "pointPctg": 0.571429
     },
     "EDM": {
-      "gamesPlayed": 21,
-      "wins": 10,
+      "gamesPlayed": 22,
+      "wins": 11,
       "losses": 9,
       "otLosses": 2,
-      "points": 22,
-      "pointPctg": 0.52381
+      "points": 24,
+      "pointPctg": 0.545455
     },
     "VAN": {
-      "gamesPlayed": 18,
-      "wins": 9,
+      "gamesPlayed": 19,
+      "wins": 10,
       "losses": 6,
       "otLosses": 3,
-      "points": 21,
-      "pointPctg": 0.583333
+      "points": 23,
+      "pointPctg": 0.605263
     },
     "SEA": {
-      "gamesPlayed": 20,
+      "gamesPlayed": 21,
       "wins": 10,
-      "losses": 9,
+      "losses": 10,
       "otLosses": 1,
       "points": 21,
-      "pointPctg": 0.525
+      "pointPctg": 0.5
     },
     "ANA": {
       "gamesPlayed": 19,
@@ -145,97 +145,97 @@
       "points": 19,
       "pointPctg": 0.5
     },
-    "STL": {
+    "UTA": {
       "gamesPlayed": 21,
-      "wins": 9,
-      "losses": 11,
-      "otLosses": 1,
+      "wins": 8,
+      "losses": 10,
+      "otLosses": 3,
       "points": 19,
       "pointPctg": 0.452381
     },
-    "UTA": {
-      "gamesPlayed": 19,
-      "wins": 7,
-      "losses": 9,
-      "otLosses": 3,
-      "points": 17,
-      "pointPctg": 0.447368
-    },
-    "SJS": {
+    "STL": {
       "gamesPlayed": 22,
-      "wins": 6,
-      "losses": 11,
-      "otLosses": 5,
-      "points": 17,
-      "pointPctg": 0.386364
-    },
-    "CHI": {
-      "gamesPlayed": 20,
-      "wins": 7,
+      "wins": 9,
       "losses": 12,
       "otLosses": 1,
-      "points": 15,
-      "pointPctg": 0.375
+      "points": 19,
+      "pointPctg": 0.431818
     },
     "NSH": {
-      "gamesPlayed": 20,
-      "wins": 6,
+      "gamesPlayed": 21,
+      "wins": 7,
       "losses": 11,
       "otLosses": 3,
-      "points": 15,
-      "pointPctg": 0.375
+      "points": 17,
+      "pointPctg": 0.404762
+    },
+    "SJS": {
+      "gamesPlayed": 23,
+      "wins": 6,
+      "losses": 12,
+      "otLosses": 5,
+      "points": 17,
+      "pointPctg": 0.369565
+    },
+    "CHI": {
+      "gamesPlayed": 21,
+      "wins": 7,
+      "losses": 12,
+      "otLosses": 2,
+      "points": 16,
+      "pointPctg": 0.380952
     }
   },
   "Eastern": {
     "NYR": {
-      "gamesPlayed": 18,
+      "gamesPlayed": 19,
       "wins": 12,
-      "losses": 5,
+      "losses": 6,
       "otLosses": 1,
       "points": 25,
-      "pointPctg": 0.694444
-    },
-    "BUF": {
-      "gamesPlayed": 20,
-      "wins": 10,
-      "losses": 9,
-      "otLosses": 1,
-      "points": 21,
-      "pointPctg": 0.525
+      "pointPctg": 0.657895
     },
     "BOS": {
-      "gamesPlayed": 21,
-      "wins": 9,
+      "gamesPlayed": 22,
+      "wins": 10,
       "losses": 9,
       "otLosses": 3,
+      "points": 23,
+      "pointPctg": 0.522727
+    },
+    "TBL": {
+      "gamesPlayed": 19,
+      "wins": 10,
+      "losses": 7,
+      "otLosses": 2,
+      "points": 22,
+      "pointPctg": 0.578947
+    },
+    "NYI": {
+      "gamesPlayed": 21,
+      "wins": 8,
+      "losses": 8,
+      "otLosses": 5,
       "points": 21,
       "pointPctg": 0.5
     },
-    "NYI": {
-      "gamesPlayed": 20,
-      "wins": 7,
-      "losses": 8,
-      "otLosses": 5,
-      "points": 19,
-      "pointPctg": 0.475
-    },
     "CBJ": {
-      "gamesPlayed": 19,
-      "wins": 8,
+      "gamesPlayed": 20,
+      "wins": 9,
       "losses": 9,
       "otLosses": 2,
-      "points": 18,
-      "pointPctg": 0.473684
-    },
-    "DET": {
-      "gamesPlayed": 19,
-      "wins": 8,
-      "losses": 9,
-      "otLosses": 2,
-      "points": 18,
-      "pointPctg": 0.473684
+      "points": 20,
+      "pointPctg": 0.5
     },
     "PHI": {
+      "gamesPlayed": 21,
+      "wins": 9,
+      "losses": 10,
+      "otLosses": 2,
+      "points": 20,
+      "pointPctg": 0.47619
+    },
+    "DET": {
       "gamesPlayed": 20,
       "wins": 8,
       "losses": 10,
@@ -244,28 +244,28 @@
       "pointPctg": 0.45
     },
     "PIT": {
-      "gamesPlayed": 22,
+      "gamesPlayed": 23,
       "wins": 7,
-      "losses": 11,
+      "losses": 12,
       "otLosses": 4,
       "points": 18,
-      "pointPctg": 0.409091
+      "pointPctg": 0.391304
     },
     "OTT": {
-      "gamesPlayed": 19,
+      "gamesPlayed": 20,
       "wins": 8,
-      "losses": 10,
+      "losses": 11,
       "otLosses": 1,
       "points": 17,
-      "pointPctg": 0.447368
+      "pointPctg": 0.425
     },
     "MTL": {
-      "gamesPlayed": 19,
+      "gamesPlayed": 20,
       "wins": 7,
-      "losses": 10,
+      "losses": 11,
       "otLosses": 2,
       "points": 16,
-      "pointPctg": 0.421053
+      "pointPctg": 0.4
     }
   }
 }

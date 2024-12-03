@@ -1,5 +1,6 @@
 import requests
 import datetime as dt
+from time import sleep
 import math
 import json
 import threading
@@ -61,7 +62,13 @@ class League(threading.Thread):
 
         _logger.info('Get League standings')
 
-        response = requests.get('https://api-web.nhle.com/v1/standings/now').json()
+        try:
+            response = requests.get('https://api-web.nhle.com/v1/standings/now').json()
+        except requests.exceptions.JSONDecodeError:
+            _logger.error('No response for standings API request!  Try again in 5 minutes.')
+            self.standings_next_get_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
+            # self.resp_queue.put(('save_standings', [None], {}))  # should failure be passed on or silent?
+            return
 
         standings = {'requestTime': dt.datetime.now().strftime(TIME_FORMAT), 'Central': {}, 'Pacific': {},
                      'Atlantic': {}, 'Metropolitan': {}, 'Western': {}, 'Eastern': {}}
@@ -92,7 +99,13 @@ class League(threading.Thread):
     def get_schedule(self):  # , pass_data=False):
         _logger.info(f'Get {self.team} schedule')
 
-        response = requests.get('https://api-web.nhle.com/v1/club-schedule-season/' + self.team + '/now').json()
+        try:
+            response = requests.get('https://api-web.nhle.com/v1/club-schedule-season/' + self.team + '/now').json()
+        except requests.exceptions.JSONDecodeError:
+            _logger.error('No response for schedule API request!  Try again in 5 minutes.')
+            self.sched_next_get_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
+            # self.resp_queue.put(('save_schedule', [None], {}))  # should failure be passed on or silent?
+            return
 
         schedule = {'requestTime': dt.datetime.now().strftime(TIME_FORMAT), 'team': self.team, 'games': []}
         for gm in response['games']:
@@ -118,7 +131,13 @@ class League(threading.Thread):
     def get_roster(self):  # , pass_data=False):
         _logger.info(f'Get {self.team} roster')
 
-        response = requests.get('https://api-web.nhle.com/v1/club-stats/' + self.team + '/now').json()
+        try:
+            response = requests.get('https://api-web.nhle.com/v1/club-stats/' + self.team + '/now').json()
+        except requests.exceptions.JSONDecodeError:
+            _logger.error('No response for roster API request!  Try again in 5 minutes.')
+            self.roster_next_get_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
+            # self.resp_queue.put(('save_roster', [None], {}))  # should failure be passed on or silent?
+            return
 
         roster = {'requestTime': dt.datetime.now().strftime(TIME_FORMAT), 'team': self.team, 'skaters': [],
                   'goalies': []}
@@ -156,7 +175,13 @@ class League(threading.Thread):
     def get_game(self, game_id):  # , pass_data=False):
         _logger.debug(f'Get live data from game {game_id}')
 
-        response = requests.get('https://api-web.nhle.com/v1/gamecenter/' + str(game_id) + '/play-by-play').json()
+        try:
+            response = requests.get('https://api-web.nhle.com/v1/gamecenter/' + str(game_id) + '/play-by-play').json()
+        except requests.exceptions.JSONDecodeError:
+            _logger.error('No response for live game API request!  Try again in 5 minutes.')
+            # self._next_get_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
+            # self.resp_queue.put(('save_standings', [None], {}))  # should failure be passed on or silent?
+            return
 
         game = {'id': response['id'],
                 'awayTeam': response['awayTeam']['abbrev'], 'homeTeam': response['homeTeam']['abbrev'],
@@ -192,21 +217,25 @@ class League(threading.Thread):
 
                 self.get_standings()  # pass_data=True)
                 self.standings_next_get_time = self.standings_next_get_time + dt.timedelta(hours=self.period_hours)
+                sleep(0.1)
 
             if self.sched_next_get_time < current_dt:
                 _logger.info(f'Trigger {self.team} schedule request')
 
                 self.get_schedule()  # pass_data=True)
                 self.sched_next_get_time = self.sched_next_get_time + dt.timedelta(hours=self.period_hours)
+                sleep(0.1)
 
             if self.roster_next_get_time < current_dt:
                 _logger.info(f'Trigger {self.team} roster request')
 
                 self.get_roster()  # pass_data=True)
                 self.roster_next_get_time = self.roster_next_get_time + dt.timedelta(hours=self.period_hours)
+                sleep(0.1)
 
             # handle incoming immediate requests
             if not self.req_queue.empty():
+                # !!! insert while queue not empty loop here
                 func_and_args = self.req_queue.get()
                 method = func_and_args[0]
                 args = func_and_args[1]
@@ -216,6 +245,7 @@ class League(threading.Thread):
                 except AttributeError:
                     _logger.error(f'No such method {func_and_args[0]} in League() class!')
 
+            sleep(0.1)
 
 class Bank(threading.Thread):
     """
@@ -426,6 +456,7 @@ class Bank(threading.Thread):
 
                 # handle incoming immediate requests
                 if not self.resp_queue.empty():
+                    # !!! add while queue not empty loop here
                     _logger.debug('League to Bank Queue has a response')
                     func_and_args = self.resp_queue.get()
                     method = func_and_args[0]
@@ -446,6 +477,9 @@ class Bank(threading.Thread):
                         self.league_queue.put(('get_game', [self.current_game['id']], {}))  # 'pass_data': True}))
                         # set to make next request in 5 minutes in case get_game doesn't get a response
                         self.game_update_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
+
+                sleep(0.1)
+
 
         finally:
             _logger.debug(f'Thread {self.name} performing cleanup')
