@@ -108,3 +108,5 @@ api power play from live game
 
 
 export DISPLAY=:0
+os.putenv('SDL_FBDEV', '/dev/fb1')
+os.putenv('SDL_VIDEODRIVER', 'fbcon')
