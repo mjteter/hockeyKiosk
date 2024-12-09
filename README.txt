@@ -32,6 +32,7 @@ sudo apt upgrade -y
 
 sudo apt install -y pigpiod
 sudo apt install -y git gh python3-pip
+sudo apt install -y xorg   # may want to add --without-recommends
 
 sudo apt install python3-venv
 python -m venv --system-site-packages adavenv
@@ -105,7 +106,19 @@ api power play from live game
     "secondsRemaining": 81
 
 
+ "situation": {
+    "homeTeam": {
+      "abbrev": "BOS",
+      "strength": 4
+    },
+    "awayTeam": {
+      "abbrev": "PHI",
+      "strength": 4
+    },
+    "situationCode": "1441"
+  },
 
+sudo fbi -T 2 -d /dev/fb1 -noverbose -a my_picture.jpg
 
 export DISPLAY=:0
 os.putenv('SDL_FBDEV', '/dev/fb1')
