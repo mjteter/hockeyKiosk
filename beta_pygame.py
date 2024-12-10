@@ -1,5 +1,7 @@
 import pygame
 import pygame_menu
+from pygame import BLEND_RGBA_ADD
+from pygame.gfxdraw import pixel
 
 # Constants and global variables
 ABOUT = [f'pygame-menu {pygame_menu.__version__}',
@@ -44,8 +46,14 @@ def main(test: bool = False) -> None:
     away_size = (w1, h1)
     away_team_logo = pygame.transform.scale(away_team_logo, away_size)
 
-    home_team_logo = pygame.image.load('resources/logos/PHI_light.svg').convert(16, 0)  # .convert_alpha()
-    home_size = home_team_logo.get_size()
+    home_logo_raw = pygame.image.load('resources/logos/PHI_light.svg')  # .convert_alpha()
+    pixel_rect = home_logo_raw.get_bounding_rect()
+    home_logo = pygame.Surface(pixel_rect.size).convert_alpha()
+    home_logo.fill((0, 0, 0, 0))
+    home_logo.blit(home_logo_raw, (0, 0), pixel_rect)
+
+    print(pixel_rect.size)
+    home_size = home_logo.get_size()
     print(home_size)
 
     if home_size[0] < home_size[1]:
@@ -56,9 +64,9 @@ def main(test: bool = False) -> None:
         h1 = round(170 / home_size[0] * home_size[1])
     home_size = (w1, h1)
     print(home_size)
-    home_team_logo = pygame.transform.scale(home_team_logo, home_size)
-    print(home_team_logo.get_size())
-    print(home_team_logo.get_rect())
+    home_logo = pygame.transform.scale(home_logo, home_size)
+    print(home_logo_raw.get_size())
+    print(home_logo_raw.get_rect())
 
     main_loop = True
     while main_loop:
@@ -68,7 +76,7 @@ def main(test: bool = False) -> None:
 
         surface.fill(COLOR_BACKGROUND)
         surface.blit(away_team_logo, away_team_logo.get_rect(center=away_rect.center))  # team_logo.get_rect(center=surface.get_rect().center))
-        surface.blit(home_team_logo, home_team_logo.get_rect(center=home_rect.center))
+        surface.blit(home_logo, home_logo.get_rect(center=home_rect.center))
         pygame.display.update()
         clock.tick(FPS)
 
