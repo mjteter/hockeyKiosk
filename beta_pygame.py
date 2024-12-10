@@ -6,7 +6,7 @@ ABOUT = [f'pygame-menu {pygame_menu.__version__}',
          f'Author: {pygame_menu.__author__}',
          '',
          f'Email: {pygame_menu.__email__}']
-COLOR_BACKGROUND = [15, 15, 18]
+COLOR_BACKGROUND = [15, 15, 218]
 FPS = 20
 W_SIZE = 480  # Width of window size
 H_SIZE = 320  # Height of window size
@@ -32,7 +32,7 @@ def main(test: bool = False) -> None:
     away_rect = pygame.Rect((15, 55), (170, 118))
     home_rect = pygame.Rect((15, 187), (170, 118))
 
-    away_team_logo = pygame.image.load('resources/logos/UTA_dark.svg').convert(16, 0)
+    away_team_logo = pygame.image.load('resources/logos/UTA_dark.svg').convert_alpha()
     away_size = away_team_logo.get_size()
 
     if away_size[0] < away_size[1]:
@@ -44,7 +44,7 @@ def main(test: bool = False) -> None:
     away_size = (w1, h1)
     away_team_logo = pygame.transform.scale(away_team_logo, away_size)
 
-    home_team_logo = pygame.image.load('resources/logos/PHI_dark.svg').convert(16, 0)
+    home_team_logo = pygame.image.load('resources/logos/PHI_light.svg').convert_alpha()
     home_size = home_team_logo.get_size()
 
     if home_size[0] < home_size[1]:
