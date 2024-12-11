@@ -85,7 +85,8 @@ gpio -g pwm 18 0
 Switch to regular venv
 source .venv/bin/activate
 
-pip install pigpio
+pip install pigpio pygame-ce
+pip install pygame-menu --no-deps
 
 
 api power play from live game

@@ -25,7 +25,8 @@ class League(threading.Thread):
     def __init__(self, resp_queue, req_queue, team='PHI', period_hours=24,):
                  # standings_tod=dt.timedelta(minutes=0),
                  # sched_tod=dt.timedelta(minutes=5)):
-        threading.Thread.__init__(self, daemon=True)
+        # threading.Thread.__init__(self, daemon=True)
+        super().__init__(daemon=True)
 
         self.resp_queue = resp_queue
         self.req_queue = req_queue
@@ -252,7 +253,8 @@ class Bank(threading.Thread):
     Threading class that acts as intermediary between gui and requesting thread
     """
     def __init__(self, kill_flag, resp_queue, league_queue, gui_queue):
-        threading.Thread.__init__(self)  # , daemon=True)
+        # threading.Thread.__init__(self)  # , daemon=True)
+        super().__init__()
 
         self.kill_flag = kill_flag
         self.resp_queue = resp_queue
