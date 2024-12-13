@@ -5,14 +5,14 @@ import sys
 
 import pygame
 from pygame.locals import *  # for key coordinates
-import pygame_menu
+# import pygame_menu
 
 
 # Constants and global variables
-ABOUT = [f'pygame-menu {pygame_menu.__version__}',
-         f'Author: {pygame_menu.__author__}',
-         '',
-         f'Email: {pygame_menu.__email__}']
+# ABOUT = [f'pygame-menu {pygame_menu.__version__}',
+#          f'Author: {pygame_menu.__author__}',
+#          '',
+#          f'Email: {pygame_menu.__email__}']
 
 PATH = sys.path[0] + '/'
 LOGO_PATH = PATH + '/resources/logos/'
@@ -119,6 +119,7 @@ class LiveGame(MultiPageBasePage):
         super().__init__(height)
 
         pygame.draw.rect(self.surf, (100, 100, 100, 255), (50, 50, 75, 75), 0)
+        pygame.draw.rect(self.surf, (100, 100, 100, 255), (130, 50, 75, 75), 5)
         return
 
 
@@ -143,7 +144,7 @@ class MultiPage(pygame.sprite.Sprite):
 
         # set active tab
         self.active_tab = 0  # this is shown tab
-        self.selected = 0  # this is button focus
+        self.selected = 1  # this is button focus
         self.total_tabs = len(tabs)
 
         padding = 3
@@ -228,7 +229,8 @@ class MultiPage(pygame.sprite.Sprite):
                 else:  # if active and not selected
                     page_text = self.menu_font.render(page_title, True, COLOR_TAB_TEXT_ACTIVE)
 
-                self.surf.blit(page.surf, page.rect)
+
+                self.surf.blit(page.surf, page.rect)  # blit active page
             else:  # not active
                 if self.selected == ii:  # if not active and selected
                     page_text = self.menu_font_bold.render(page_title, True, COLOR_TAB_TEXT_INACTIVE)
@@ -240,7 +242,8 @@ class MultiPage(pygame.sprite.Sprite):
             # test2 = self.menu_font_bold.render(page_title, True, COLOR_TAB_TEXT_ACTIVE)
             # self.surf.blit(test, test.get_rect())
             # self.surf.blit(test2, (0, 40))
-
+        pygame.draw.rect(self.menu_surf, COLOR_TAB_TEXT_ACTIVE, tab_rects[0], 2)
+        
 
         self.surf.blit(self.menu_surf, self.menu_rect)
 
