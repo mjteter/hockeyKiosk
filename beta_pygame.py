@@ -1,10 +1,11 @@
 # import os
 # from time import sleep
-from typing import Tuple
+from typing import Tuple, Dict, List
 import sys
 
 import pygame
 from pygame.locals import *  # for key coordinates
+
 # import pygame_menu
 
 
@@ -46,20 +47,35 @@ BACKGROUNDS = {'dark': {'gray': [(0, 0, 3, 255),
 #                               [240, 240, 243],
 #                               [255, 255, 255]]}}
 
-COLOR_BACKGROUND_ID = ['dark', 'gray', 1]
-COLOR_BACKGROUND = BACKGROUNDS[COLOR_BACKGROUND_ID[0]][COLOR_BACKGROUND_ID[1]][COLOR_BACKGROUND_ID[2]]
+# COLOR_BACKGROUND_ID = ['dark', 'gray', 1]
+# COLOR_BACKGROUND = BACKGROUNDS[COLOR_BACKGROUND_ID[0]][COLOR_BACKGROUND_ID[1]][COLOR_BACKGROUND_ID[2]]
+#
+# COLOR_BORDER_ID = ['light', 'gray', 5]
+# COLOR_BORDER = BACKGROUNDS[COLOR_BORDER_ID[0]][COLOR_BORDER_ID[1]][COLOR_BORDER_ID[2]]
+#
+# COLOR_TAB_TEXT_ACTIVE_ID = ['light', 'gray', 4]
+# COLOR_TAB_TEXT_ACTIVE = BACKGROUNDS[COLOR_TAB_TEXT_ACTIVE_ID[0]][COLOR_TAB_TEXT_ACTIVE_ID[1]][COLOR_TAB_TEXT_ACTIVE_ID[2]]
+#
+# COLOR_TAB_TEXT_INACTIVE_ID = ['light', 'gray', 8]
+# COLOR_TAB_TEXT_INACTIVE = BACKGROUNDS[COLOR_TAB_TEXT_INACTIVE_ID[0]][COLOR_TAB_TEXT_INACTIVE_ID[1]][COLOR_TAB_TEXT_INACTIVE_ID[2]]
 
-COLOR_BORDER_ID = ['light', 'gray', 5]
-COLOR_BORDER = BACKGROUNDS[COLOR_BORDER_ID[0]][COLOR_BORDER_ID[1]][COLOR_BORDER_ID[2]]
-
-COLOR_TAB_TEXT_ACTIVE_ID = ['light', 'gray', 4]
-COLOR_TAB_TEXT_ACTIVE = BACKGROUNDS[COLOR_TAB_TEXT_ACTIVE_ID[0]][COLOR_TAB_TEXT_ACTIVE_ID[1]][COLOR_TAB_TEXT_ACTIVE_ID[2]]
-
-COLOR_TAB_TEXT_INACTIVE_ID = ['light', 'gray', 8]
-COLOR_TAB_TEXT_INACTIVE = BACKGROUNDS[COLOR_TAB_TEXT_INACTIVE_ID[0]][COLOR_TAB_TEXT_INACTIVE_ID[1]][COLOR_TAB_TEXT_INACTIVE_ID[2]]
-
+COLOR_BACKGROUND = (15, 15, 18, 255)
+COLOR_BORDER = (180, 180, 183, 255)
+COLOR_MAIN_FONT = (195, 195, 198, 255)
+COLOR_TAB_TEXT_ACTIVE = (195, 195, 198, 255)
+COLOR_TAB_TEXT_INACTIVE = (135, 135, 138, 255)
+COLOR_SELECTED = (204, 120, 50, 255)
 
 COLOR_EMPTY = (0, 0, 0, 0)
+COLOR_BLACK = (0, 0, 0, 255)
+COLOR_DARK_GRAY = (66, 66, 66, 255)
+COLOR_WHITE = (255, 255, 255, 255)
+COLOR_RED = (214, 74, 75, 255)
+COLOR_GREEN = (106, 135, 89, 255)
+COLOR_BLUE = (52, 152, 219, 255)
+COLOR_YELLOW = (187, 181, 41, 255)
+COLOR_ORANGE = (204, 120, 50, 255)
+COLOR_VIOLET = (152, 118, 170)
 
 FPS = 20
 W_SIZE = 480  # Width of window size
@@ -72,11 +88,92 @@ WINDOW_SIZE = (W_SIZE, H_SIZE)
 #         'Press LEFT/RIGHT to move through Selectors']
 
 
-class Logo(pygame.sprite.Sprite):
-    def __init__(self, filepath: str, left_top: Tuple[int, int] = (0, 0), height: int = 118, _ratio: float = 1.441):
-        super().__init__()
+def pyg_draw_rect_multi_border(surface: pygame.Surface,
+                               color: Tuple[int, int, int, int],
+                               left_top: Tuple[int, int],
+                               size: Tuple[int, int],
+                               width: Tuple[int, int, int, int]) -> None:
+    left = left_top[0]
+    top = left_top[1]
+    wid = size[0] - 1
+    hgt = size[1] - 1
+    pygame.Rect()
+    # left border
+    for ii in range(width[0]):
+        pygame.draw.line(surface, color, (left + ii, top), (left + ii, top + hgt), 1)
 
-        size = (round(_ratio * height), height)
+    # top border
+    for ii in range(width[1]):
+        pygame.draw.line(surface, color, (left, top + ii), (left + wid, top + ii), 1)
+
+    # right border
+    for ii in range(width[2]):
+        pygame.draw.line(surface, color, (left + wid - ii, top), (left + wid - ii, top + hgt), 1)
+
+    # bottom border
+    for ii in range(width[3]):
+        pygame.draw.line(surface, color, (left, top + hgt - ii), (left + wid, top + hgt - ii), 1)
+    return
+
+
+def multi_uniform_text_fill(text_rect_list: List, font_path: str = FONT_PATH + 'JetBrainsMono-Medium.ttf',
+                            color: Tuple[int, int, int, int] = COLOR_MAIN_FONT):
+    """
+    Takes list of ['text', pygame.Rect, loc] couplets and finds the maximum font size that works across all entries
+    loc is representation of where text should be located in Rect (tl, tc, tr, ml, mc, mr, bl, bc, br)
+    :param text_rect_list:
+    :param font_path:
+    :param color:
+    :return:
+    """
+
+    text_fits = False
+    font_size = 200
+    font_rect_list = []
+
+    while not text_fits:
+        font = pygame.font.Font(font_path, font_size)
+        font_rect_list = []
+        print(font_size)
+        text_fits = True
+        for (text, rect, loc) in text_rect_list:
+            test_text = font.render(text, True, color)
+            font_rect_list.append([test_text, rect, loc])
+            width = test_text.get_rect().width
+            height = test_text.get_rect().height
+            print(width, rect.width, height, rect.height)
+            print(font.size(text), font.get_height())
+            if height - 0> rect.height or width > rect.width:
+                text_fits = False
+
+        if not text_fits:
+            if font_size > 50:
+                font_size -= 10
+            elif font_size > 16:
+                font_size -= 2
+            else:
+                font_size -= 1
+
+    return font_rect_list
+
+
+def render_font_rect_list(surface: pygame.Surface, font_rect_list: List):
+    """
+    Renders all given text
+    :param surface:
+    :param font_rect_list:
+    :return:
+    """
+
+    for (text, rect, loc) in font_rect_list:
+        surface.blit(text, text.get_rect(center=rect.center))
+
+    return
+
+
+class Logo(pygame.sprite.Sprite):
+    def __init__(self, filepath: str, left_top: Tuple[int, int] = (0, 0), size: Tuple[int, int] = (170, 118)):
+        super().__init__()
 
         raw_logo = pygame.image.load(filepath)
         pixel_rect = raw_logo.get_bounding_rect()  # sometimes pygame adds empty borders
@@ -86,7 +183,7 @@ class Logo(pygame.sprite.Sprite):
 
         cleaned_size = pixel_surf.get_size()
 
-        if cleaned_size[0] / cleaned_size[1] <= _ratio:
+        if (cleaned_size[0] / cleaned_size[1]) <= (size[0] / size[1]):
             w1 = round(size[1] / cleaned_size[1] * cleaned_size[0])
             h1 = size[1]
         else:
@@ -104,7 +201,7 @@ class Logo(pygame.sprite.Sprite):
 
 
 class MultiPageBasePage(pygame.sprite.Sprite):
-    def __init__(self, height):
+    def __init__(self, height: int):
         super().__init__()
 
         self.surf = pygame.Surface((W_SIZE, height)).convert_alpha()
@@ -115,11 +212,72 @@ class MultiPageBasePage(pygame.sprite.Sprite):
 
 
 class LiveGame(MultiPageBasePage):
-    def __init__(self, height):
+    def __init__(self, game_dict: Dict, height: int):
         super().__init__(height)
 
-        pygame.draw.rect(self.surf, (100, 100, 100, 255), (50, 50, 75, 75), 0)
-        pygame.draw.rect(self.surf, (100, 100, 100, 255), (130, 50, 75, 75), 5)
+        # pygame.draw.rect(self.surf, (100, 100, 100, 255), (50, 50, 75, 75), 0)
+        # pygame.draw.rect(self.surf, (100, 100, 100, 255), (130, 50, 75, 75), 5)
+
+        logo_width_rat = 0.35417
+        score_width_rat = 0.27083
+        font_large_rat = 0.09375
+        font_small_rat = 0.0625
+
+        self.border_narrow = 5
+        self.border_medium = 10
+        self.border = 15
+
+        self.logo_width = round(logo_width_rat * W_SIZE)
+        self.logo_height = round((height - 3 * self.border) / 2)
+
+        self.score_width = round(score_width_rat * W_SIZE)
+        self.score_height = self.logo_height - 2 * self.border_narrow
+
+        self.data_width = W_SIZE - self.logo_width - self.score_width - 4 * self.border
+        self.font_large_height = round(font_large_rat * H_SIZE)
+        self.font_small_height = round(font_small_rat * H_SIZE)
+
+        self.away_team = game_dict['awayTeam']
+        self.home_team = game_dict['homeTeam']
+        self.away_score = str(game_dict['awayScore'])
+        self.home_score = str(game_dict['homeScore'])
+        self.away_sog = str(game_dict['awaySog'])
+        self.home_sog = str(game_dict['homeSog'])
+        self.game_state = game_dict['gameState']
+        if game_dict['period'] == 1:
+            self.period = '1st'
+        elif game_dict['period'] == 2:
+            self.period = '2nd'
+        elif game_dict['period'] == 3:
+            self.period = '3rd'
+        elif game_dict['period'] == 4:
+            self.period = 'OT'
+        elif game_dict['period'] == 5:
+            self.period = 'SO'
+        self.period = self.period + (' Int' if game_dict['inIntermission'] else '')
+        self.game_clock = str(game_dict['clock'])
+
+        away_logo = Logo('resources/logos/' + self.away_team + '_dark.svg',
+                         left_top=(self.border, self.border), size=(self.logo_width, self.logo_height))
+        home_logo = Logo('resources/logos/' + self.home_team + '_dark.svg',
+                         left_top=(self.border, 2 * self.border + self.logo_height),
+                         size=(self.logo_width, self.logo_height))
+
+        away_score_rect = pygame.Rect((2 * self.border + self.logo_width, self.border + self.border_narrow),
+                                      (self.score_width, self.score_height))
+        home_score_rect = pygame.Rect((2 * self.border + self.logo_width,
+                                       2 * self.border + 3 * self.border_narrow + self.score_height),
+                                      (self.score_width, self.score_height))
+
+        render_rect_list = multi_uniform_text_fill([[self.away_score, away_score_rect, 'mc'],
+                                                    [self.home_score, home_score_rect, 'mc']],
+                                                   font_path=FONT_PATH + 'Roboto-Medium.ttf',
+                                                   color=COLOR_MAIN_FONT)
+
+        render_font_rect_list(self.surf, render_rect_list)
+
+        self.surf.blit(away_logo.surf, away_logo.rect)
+        self.surf.blit(home_logo.surf, home_logo.rect)
         return
 
 
@@ -171,19 +329,19 @@ class MultiPage(pygame.sprite.Sprite):
         tab_widths = [10 for ii in range(self.total_tabs)]
 
         while not menu_text_fits:
-            self.menu_font_bold = pygame.font.Font(FONT_PATH + 'JetBrainsMono-ExtraBold.ttf', self.menu_font_size)
+            self.menu_font = pygame.font.Font(FONT_PATH + 'JetBrainsMono-Medium.ttf', self.menu_font_size)
             tab_widths = []
             tab_height = 0
             total_width = 0
             for ii in range(self.total_tabs):
-                test_font = self.menu_font_bold.render(tabs[ii][0], True, COLOR_TAB_TEXT_ACTIVE)
+                test_font = self.menu_font.render(tabs[ii][0], True, COLOR_TAB_TEXT_ACTIVE)
                 tab_widths.append(test_font.get_rect().width)
                 tab_height = test_font.get_rect().height
                 total_width += test_font.get_rect().width
 
             if tab_height > self.tab_padded_height or total_width > self.tab_total_padded_width:
                 if self.menu_font_size > 50:
-                    self.menu_font_size -= 40
+                    self.menu_font_size -= 10
                 elif self.menu_font_size > 16:
                     self.menu_font_size -= 2
                 else:
@@ -220,30 +378,23 @@ class MultiPage(pygame.sprite.Sprite):
                 pygame.draw.line(self.menu_surf, COLOR_BORDER, border_lines[-1][0], border_lines[-1][1], border_width)
             tab_rects.append(pygame.Rect((tab_left, tab_top), (tab_width, tab_height)))
 
-        self.menu_font = pygame.font.Font(FONT_PATH + 'JetBrainsMono-Medium.ttf', self.menu_font_size)
+        self.menu_font_bold = pygame.font.Font(FONT_PATH + 'JetBrainsMono-ExtraBold.ttf', self.menu_font_size)
         print(tab_rects)
         for ii, (page_title, page) in enumerate(tabs):
             if self.active_tab == ii:  # if active
-                if self.selected == ii:  # if active and selected
-                    page_text = self.menu_font_bold.render(page_title, True, COLOR_TAB_TEXT_ACTIVE)
-                else:  # if active and not selected
-                    page_text = self.menu_font.render(page_title, True, COLOR_TAB_TEXT_ACTIVE)
-
+                page_text = self.menu_font.render(page_title, True, COLOR_TAB_TEXT_ACTIVE)
 
                 self.surf.blit(page.surf, page.rect)  # blit active page
             else:  # not active
-                if self.selected == ii:  # if not active and selected
-                    page_text = self.menu_font_bold.render(page_title, True, COLOR_TAB_TEXT_INACTIVE)
-                else:  # if not active and not selected
-                    page_text = self.menu_font.render(page_title, True, COLOR_TAB_TEXT_INACTIVE)
+                page_text = self.menu_font.render(page_title, True, COLOR_TAB_TEXT_INACTIVE)
+
+            if self.selected == ii:  # if selected
+                pygame.draw.rect(self.menu_surf, COLOR_SELECTED, tab_rects[ii], 2)
 
             self.menu_surf.blit(page_text, page_text.get_rect(center=tab_rects[ii].center))
-            # test = self.menu_font.render(page_title, True, COLOR_TAB_TEXT_ACTIVE)
-            # test2 = self.menu_font_bold.render(page_title, True, COLOR_TAB_TEXT_ACTIVE)
-            # self.surf.blit(test, test.get_rect())
-            # self.surf.blit(test2, (0, 40))
-        pygame.draw.rect(self.menu_surf, COLOR_TAB_TEXT_ACTIVE, tab_rects[0], 2)
-        
+
+        # pygame.draw.rect(self.menu_surf, COLOR_ORANGE, tab_rects[0], 2)
+        # pyg_draw_rect_multi_border(self.menu_surf, COLOR_TAB_TEXT_ACTIVE, tab_rects[0].topleft, tab_rects[0].size, (2, 2, 1, 1))
 
         self.surf.blit(self.menu_surf, self.menu_rect)
 
@@ -259,9 +410,11 @@ def main() -> None:
     surface = pygame.display.set_mode(WINDOW_SIZE, pygame.NOFRAME)
     pygame.Surface.convert_alpha(surface)
 
+    test_game = {'id': '2024020449', 'awayTeam': 'DET', 'homeTeam': 'PHI', 'awayScore': 1, 'homeScore': 3,
+                 'awaySog': 17, 'homeSog': 25, 'gameState': 'LIVE', 'period': 2, 'clock': '02:18',
+                 'inIntermission': False, 'plays': []}
 
-
-    live_game = LiveGame(H_SIZE - TOP_MENU_H_SIZE)
+    live_game = LiveGame(test_game, H_SIZE - TOP_MENU_H_SIZE)
     schedule = Schedule(H_SIZE - TOP_MENU_H_SIZE)
     standings = Standings(H_SIZE - TOP_MENU_H_SIZE)
     settings = Settings(H_SIZE - TOP_MENU_H_SIZE)
@@ -272,8 +425,8 @@ def main() -> None:
                  ('Settings', settings))
     multi_page = MultiPage(TOP_MENU_H_SIZE, page_dict)
 
-    # away_logo = Logo('resources/logos/WPG_dark.svg', left_top=(15, 55), height=118)
-    # home_logo = Logo('resources/logos/PHI_dark.svg', left_top=(15, 187), height=118)
+    # away_logo = Logo('resources/logos/DET_dark.svg', left_top=(15, 55), size=(170, 118))
+    # home_logo = Logo('resources/logos/PHI_dark.svg', left_top=(15, 187), size=(170, 118))
 
     # for file in os.listdir('resources/logos'):
     #     if not file.endswith('.svg'):
