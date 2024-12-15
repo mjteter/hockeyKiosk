@@ -192,6 +192,20 @@ class League(threading.Thread):
                 'clock': response['clock']['timeRemaining'], 'inIntermission': response['clock']['inIntermission'],
                 'plays': []}
 
+        try:
+            sitch = response['situation']
+
+            if 'situationDescriptions' in sitch['awayTeam'].keys():
+                game['homeSituation'] = ''
+                game['awaySituation'] = sitch['awayTeam']['strength'] + 'v' + sitch['homeTeam']['strength']
+            else:
+                game['homeSituation'] = sitch['homeTeam']['strength'] + 'v' + sitch['awayTeam']['strength']
+                game['awaySituation'] = ''
+
+        except KeyError:
+            game['awaySituation'] = ''
+            game['homeSituation'] = ''
+
         for play in response['plays']:
             try:
                 if play['typeDescKey'] == 'goal':

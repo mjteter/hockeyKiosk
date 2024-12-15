@@ -134,16 +134,16 @@ def multi_uniform_text_fill(text_rect_list: List, font_path: str = FONT_PATH + '
     while not text_fits:
         font = pygame.font.Font(font_path, font_size)
         font_rect_list = []
-        print(font_size)
+        # print(font_size)
         text_fits = True
         for (text, rect, loc) in text_rect_list:
             test_text = font.render(text, True, color)
             font_rect_list.append([test_text, rect, loc])
             width = test_text.get_rect().width
             height = test_text.get_rect().height
-            print(width, rect.width, height, rect.height)
-            print(font.size(text), font.get_height())
-            if height - 0> rect.height or width > rect.width:
+            # print(width, rect.width, height, rect.height)
+            # print(font.size(text), font.get_height())
+            if height > rect.height or width > rect.width:
                 text_fits = False
 
         if not text_fits:
@@ -166,7 +166,24 @@ def render_font_rect_list(surface: pygame.Surface, font_rect_list: List):
     """
 
     for (text, rect, loc) in font_rect_list:
-        surface.blit(text, text.get_rect(center=rect.center))
+        if loc == 'tl':  # top left
+            surface.blit(text, text.get_rect(topleft=rect.topleft))
+        elif loc == 'tc':  # top center
+            surface.blit(text, text.get_rect(midtop=rect.midtop))
+        elif loc == 'tr':  # top right
+            surface.blit(text, text.get_rect(topright=rect.topright))
+        elif loc == 'ml':  # mid left
+            surface.blit(text, text.get_rect(midleft=rect.midleft))
+        elif loc == 'mr':  # mid right
+            surface.blit(text, text.get_rect(midright=rect.midright))
+        elif loc == 'bl':  # bottom left
+            surface.blit(text, text.get_rect(bottomleft=rect.bottomleft))
+        elif loc == 'bc':  # bottom center
+            surface.blit(text, text.get_rect(midbottom=rect.midbottom))
+        elif loc == 'br':  # bottom right
+            surface.blit(text, text.get_rect(bottomright=rect.bottomright))
+        else:  # center
+            surface.blit(text, text.get_rect(center=rect.center))
 
     return
 
@@ -215,12 +232,12 @@ class LiveGame(MultiPageBasePage):
     def __init__(self, game_dict: Dict, height: int):
         super().__init__(height)
 
-        # pygame.draw.rect(self.surf, (100, 100, 100, 255), (50, 50, 75, 75), 0)
-        # pygame.draw.rect(self.surf, (100, 100, 100, 255), (130, 50, 75, 75), 5)
+        # self.font_path = FONT_PATH + 'JetBrainsMono-Medium.ttf'
+        self.font_path = FONT_PATH + 'Roboto-Medium.ttf'
 
         logo_width_rat = 0.35417
         score_width_rat = 0.27083
-        font_large_rat = 0.09375
+        font_large_rat = 0.109375
         font_small_rat = 0.0625
 
         self.border_narrow = 5
@@ -256,6 +273,8 @@ class LiveGame(MultiPageBasePage):
             self.period = 'SO'
         self.period = self.period + (' Int' if game_dict['inIntermission'] else '')
         self.game_clock = str(game_dict['clock'])
+        self.away_situation = game_dict['awaySituation']
+        self.home_situation = game_dict['homeSituation']
 
         away_logo = Logo('resources/logos/' + self.away_team + '_dark.svg',
                          left_top=(self.border, self.border), size=(self.logo_width, self.logo_height))
@@ -263,18 +282,52 @@ class LiveGame(MultiPageBasePage):
                          left_top=(self.border, 2 * self.border + self.logo_height),
                          size=(self.logo_width, self.logo_height))
 
-        away_score_rect = pygame.Rect((2 * self.border + self.logo_width, self.border + self.border_narrow),
-                                      (self.score_width, self.score_height))
+        # away_score_rect = pygame.Rect((2 * self.border + self.logo_width, self.border + self.border_narrow),
+        #                               (self.score_width, self.score_height))
+        # home_score_rect = pygame.Rect((2 * self.border + self.logo_width,
+        #                                2 * self.border + 3 * self.border_narrow + self.score_height),
+        #                               (self.score_width, self.score_height))
+
+        away_score_rect = pygame.Rect((2 * self.border + self.logo_width, 0),
+                                      (self.score_width, round(height / 2)))
         home_score_rect = pygame.Rect((2 * self.border + self.logo_width,
-                                       2 * self.border + 3 * self.border_narrow + self.score_height),
-                                      (self.score_width, self.score_height))
-
-        render_rect_list = multi_uniform_text_fill([[self.away_score, away_score_rect, 'mc'],
+                                       round(height / 2)),
+                                      (self.score_width, round(height / 2)))
+        score_render_list = multi_uniform_text_fill([[self.away_score, away_score_rect, 'mc'],
                                                     [self.home_score, home_score_rect, 'mc']],
-                                                   font_path=FONT_PATH + 'Roboto-Medium.ttf',
-                                                   color=COLOR_MAIN_FONT)
+                                                   font_path=self.font_path, color=COLOR_MAIN_FONT)
 
-        render_font_rect_list(self.surf, render_rect_list)
+        away_sog_rect = pygame.Rect((3 * self.border + self.logo_width + self.score_width,
+                                     self.border + self.border_narrow), (self.data_width, self.font_large_height))
+        home_sog_rect = pygame.Rect((3 * self.border + self.logo_width + self.score_width,
+                                     home_score_rect.bottom - self.font_large_height),
+                                    (self.data_width, self.font_large_height))
+        period_rect = pygame.Rect((3 * self.border + self.logo_width + self.score_width,
+                                   round(height / 2) - self.font_large_height),
+                                  (self.data_width, self.font_large_height))
+        clock_rect = pygame.Rect((3 * self.border + self.logo_width + self.score_width,
+                                  round(height / 2)),
+                                 (self.data_width, self.font_large_height))
+        sog_render_list = multi_uniform_text_fill([[self.away_sog, away_sog_rect, 'tl'],
+                                                   [self.home_sog, home_sog_rect, 'bl'],
+                                                   [self.period, period_rect, 'bl'],
+                                                   [self.game_clock, clock_rect, 'tl']],
+                                                  font_path=self.font_path, color=COLOR_MAIN_FONT)
+
+        away_pp_rect = pygame.Rect((3 * self.border + self.logo_width + self.score_width,
+                                    self.border + 2 * self.border_narrow + self.font_large_height),
+                                   (self.data_width, self.font_small_height))
+        home_pp_rect = pygame.Rect((3 * self.border + self.logo_width + self.score_width,
+                                    home_score_rect.bottom - self.font_large_height - self.border_narrow - self.font_small_height),
+                                   (self.data_width, self.font_small_height))
+        pp_rect_list = multi_uniform_text_fill([[self.away_situation, away_pp_rect, 'tl'],
+                                                [self.home_situation, home_pp_rect, 'bl']],
+                                               font_path=self.font_path, color=COLOR_MAIN_FONT)
+
+        render_font_rect_list(self.surf, score_render_list + sog_render_list + pp_rect_list)
+
+        # for (text, rect, loc) in (score_render_list + sog_render_list + pp_rect_list):
+        #     pygame.draw.rect(self.surf, COLOR_GREEN, rect, 1)
 
         self.surf.blit(away_logo.surf, away_logo.rect)
         self.surf.blit(home_logo.surf, home_logo.rect)
@@ -399,6 +452,7 @@ class MultiPage(pygame.sprite.Sprite):
         self.surf.blit(self.menu_surf, self.menu_rect)
 
 
+
 def main() -> None:
     """
     Main program.
@@ -412,7 +466,7 @@ def main() -> None:
 
     test_game = {'id': '2024020449', 'awayTeam': 'DET', 'homeTeam': 'PHI', 'awayScore': 1, 'homeScore': 3,
                  'awaySog': 17, 'homeSog': 25, 'gameState': 'LIVE', 'period': 2, 'clock': '02:18',
-                 'inIntermission': False, 'plays': []}
+                 'homeSituation': '5v4', 'awaySituation': '', 'inIntermission': False, 'plays': []}
 
     live_game = LiveGame(test_game, H_SIZE - TOP_MENU_H_SIZE)
     schedule = Schedule(H_SIZE - TOP_MENU_H_SIZE)
