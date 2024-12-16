@@ -288,24 +288,24 @@ class LiveGame(MultiPageBasePage):
         #                                2 * self.border + 3 * self.border_narrow + self.score_height),
         #                               (self.score_width, self.score_height))
 
-        away_score_rect = pygame.Rect((2 * self.border + self.logo_width, 0),
+        away_score_rect = pygame.Rect((away_logo.rect.right + self.border, 0),
                                       (self.score_width, round(height / 2)))
-        home_score_rect = pygame.Rect((2 * self.border + self.logo_width,
+        home_score_rect = pygame.Rect((home_logo.rect.right + self.border,
                                        round(height / 2)),
                                       (self.score_width, round(height / 2)))
         score_render_list = multi_uniform_text_fill([[self.away_score, away_score_rect, 'mc'],
                                                     [self.home_score, home_score_rect, 'mc']],
                                                    font_path=self.font_path, color=COLOR_MAIN_FONT)
 
-        away_sog_rect = pygame.Rect((3 * self.border + self.logo_width + self.score_width,
+        away_sog_rect = pygame.Rect((away_score_rect.right + self.border,
                                      self.border + self.border_narrow), (self.data_width, self.font_large_height))
-        home_sog_rect = pygame.Rect((3 * self.border + self.logo_width + self.score_width,
-                                     home_score_rect.bottom - self.font_large_height),
+        home_sog_rect = pygame.Rect((home_score_rect.right + self.border,
+                                     height - self.border - self.border_narrow - self.font_large_height),
                                     (self.data_width, self.font_large_height))
-        period_rect = pygame.Rect((3 * self.border + self.logo_width + self.score_width,
+        period_rect = pygame.Rect((away_score_rect.right + self.border,
                                    round(height / 2) - self.font_large_height),
                                   (self.data_width, self.font_large_height))
-        clock_rect = pygame.Rect((3 * self.border + self.logo_width + self.score_width,
+        clock_rect = pygame.Rect((home_score_rect.right + self.border,
                                   round(height / 2)),
                                  (self.data_width, self.font_large_height))
         sog_render_list = multi_uniform_text_fill([[self.away_sog, away_sog_rect, 'tl'],
@@ -314,11 +314,11 @@ class LiveGame(MultiPageBasePage):
                                                    [self.game_clock, clock_rect, 'tl']],
                                                   font_path=self.font_path, color=COLOR_MAIN_FONT)
 
-        away_pp_rect = pygame.Rect((3 * self.border + self.logo_width + self.score_width,
-                                    self.border + 2 * self.border_narrow + self.font_large_height),
+        away_pp_rect = pygame.Rect((away_score_rect.right + self.border,
+                                    away_sog_rect.bottom + self.border_narrow),
                                    (self.data_width, self.font_small_height))
-        home_pp_rect = pygame.Rect((3 * self.border + self.logo_width + self.score_width,
-                                    home_score_rect.bottom - self.font_large_height - self.border_narrow - self.font_small_height),
+        home_pp_rect = pygame.Rect((home_score_rect.right + self.border,
+                                    home_sog_rect.top - self.border_narrow - self.font_small_height),
                                    (self.data_width, self.font_small_height))
         pp_rect_list = multi_uniform_text_fill([[self.away_situation, away_pp_rect, 'tl'],
                                                 [self.home_situation, home_pp_rect, 'bl']],
@@ -403,7 +403,7 @@ class MultiPage(pygame.sprite.Sprite):
             #     menu_text_fits = True  # bug out on failure to find reasonable font size
             else:
                 menu_text_fits = True
-                print(tab_widths)
+                # print(tab_widths)
                 ii = 0
                 while total_width < self.tab_total_padded_width:
                     tab_widths[ii] += 1
@@ -412,7 +412,7 @@ class MultiPage(pygame.sprite.Sprite):
                         ii = 0
                     else:
                         ii += 1
-                print(tab_widths)
+                # print(tab_widths)
 
         tab_rects = []
         border_lines = []
@@ -432,7 +432,7 @@ class MultiPage(pygame.sprite.Sprite):
             tab_rects.append(pygame.Rect((tab_left, tab_top), (tab_width, tab_height)))
 
         self.menu_font_bold = pygame.font.Font(FONT_PATH + 'JetBrainsMono-ExtraBold.ttf', self.menu_font_size)
-        print(tab_rects)
+        # print(tab_rects)
         for ii, (page_title, page) in enumerate(tabs):
             if self.active_tab == ii:  # if active
                 page_text = self.menu_font.render(page_title, True, COLOR_TAB_TEXT_ACTIVE)
