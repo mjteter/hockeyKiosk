@@ -1,5 +1,4 @@
 import queue
-from datetime import timedelta
 
 import requests
 import datetime as dt
@@ -15,6 +14,8 @@ _logger = logging.getLogger(__name__)
 
 TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 SCHED_TIME_FORMAT = '%Y-%m-%dT%H:%M:%S%z'
+MAX_REQUESTS_PER_MIN = 10
+
 
 class KillFlag(threading.Event):
     """A wrapper for the typical event class to allow for overriding the
@@ -36,31 +37,58 @@ class League(threading.Thread):
         self.team = team
 
         self.requests_made = []
-        self.delayed_requests = {'get_standings': [],
-                                 'get_schedule': [],
-                                 'get_roster': [],
-                                 'get_game': []}
+        # self.delayed_requests = {'get_standings': [],
+        #                          'get_schedule': [],
+        #                          'get_roster': [],
+        #                          'get_game': []}
+        self.delayed_requests = []
 
 
-
-        self.period_hours = period_hours
-        self.standings_tod = dt.timedelta(minutes=0)
-        self.sched_tod = dt.timedelta(minutes=2)  # offset to avoid pounding api
-        self.roster_tod = dt.timedelta(minutes=4)  # offset to avoid pounding api
-        self.game_tod = dt.timedelta(minutes=6)
-
-        start_delta = math.ceil(dt.datetime.now().astimezone(None).hour / period_hours) * period_hours
-
-
-        self.standings_next_get_time = (dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0).astimezone(None) +
-                                        dt.timedelta(hours=start_delta) + self.standings_tod)
-        self.sched_next_get_time = (dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0).astimezone(None) +
-                                        dt.timedelta(hours=start_delta) + self.sched_tod)
-        self.roster_next_get_time = (dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0).astimezone(None) +
-                                        dt.timedelta(hours=start_delta) + self.roster_tod)
+        # # !!! comment out below
+        # self.period_hours = period_hours
+        # self.standings_tod = dt.timedelta(minutes=0)
+        # self.sched_tod = dt.timedelta(minutes=2)  # offset to avoid pounding api
+        # self.roster_tod = dt.timedelta(minutes=4)  # offset to avoid pounding api
+        # self.game_tod = dt.timedelta(minutes=6)
+        #
+        # start_delta = math.ceil(dt.datetime.now().astimezone(None).hour / period_hours) * period_hours
+        #
+        #
+        # self.standings_next_get_time = (dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0).astimezone(None) +
+        #                                 dt.timedelta(hours=start_delta) + self.standings_tod)
+        # self.sched_next_get_time = (dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0).astimezone(None) +
+        #                                 dt.timedelta(hours=start_delta) + self.sched_tod)
+        # self.roster_next_get_time = (dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0).astimezone(None) +
+        #                                 dt.timedelta(hours=start_delta) + self.roster_tod)
 
         _logger.info('Initialize League() thread')
         return
+
+    def _append_delayed_request(self, delayed_req):
+        """
+        adds delayed request if none exactly the same have been added, if not, check if new delay time is shorter than
+        currently listed
+
+        :param delayed_req: of form {'func': {'method': 'method_name', 'args': [args], 'kwargs': {kwargs}},
+        'time_to_req': datetime}
+        """
+        found_prior_req = False
+        for req in self.delayed_requests:
+            if req['func'] == delayed_req['func']:
+                if delayed_req['time_to_req'] < req['time_to_req']:
+                    req['time_to_req'] = delayed_req['time_to_req']
+                found_prior_req = True
+                break
+
+        if not found_prior_req:
+            self.delayed_requests.append(delayed_req)
+
+    def _len_requests_made(self) -> int:
+        current_dt_delta = dt.datetime.now().astimezone(None) - dt.timedelta(minutes=1)
+        #  clear out old requests
+        self.requests_made = [req for req in self.requests_made if req[1] > current_dt_delta]
+
+        return len(self.requests_made)
 
     def get_standings(self, delay=0):
         """
@@ -71,15 +99,15 @@ class League(threading.Thread):
         """
         current_dt = dt.datetime.now().astimezone(None)
 
-        if delay > 0:
-            _logger.info(f'Get League standings after delay of {delay}')
-            if self.delayed_requests['get_standings']:
-                if current_dt + timedelta(minutes=delay) < self.delayed_requests['get_standings'][2]:
-                    self.delayed_requests['get_standings'][2] = current_dt + timedelta(minutes=delay)
-            else:
-                self.delayed_requests['get_standings'] = [[], {'delay': 0}, current_dt + timedelta(minutes=delay)]
-            # self.standings_next_get_time = self.standings_next_get_time + dt.timedelta(minutes=delay)
-            return
+        # if delay > 0:
+        #     _logger.info(f'Get League standings after delay of {delay}')
+        #     if self.delayed_requests['get_standings']:
+        #         if current_dt + timedelta(minutes=delay) < self.delayed_requests['get_standings'][2]:
+        #             self.delayed_requests['get_standings'][2] = current_dt + timedelta(minutes=delay)
+        #     else:
+        #         self.delayed_requests['get_standings'] = [[], {}, current_dt + timedelta(minutes=delay)]
+        #     # self.standings_next_get_time = self.standings_next_get_time + dt.timedelta(minutes=delay)
+        #     return
 
         _logger.info('Get League standings')
 
@@ -88,8 +116,15 @@ class League(threading.Thread):
             response = requests.get('https://api-web.nhle.com/v1/standings/now').json()
         except requests.exceptions.JSONDecodeError:
             _logger.error('No response for standings API request!  Try again in 5 minutes.')
-            self.standings_next_get_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
-            # self.resp_queue.put(('save_standings', [None], {}))  # should failure be passed on or silent?
+            # self.standings_next_get_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
+            # self.req_queue.put(('get_standings', [], {}, 5))
+            # self.req_queue.put({'method': 'get_standings', 'args': [], 'kwargs': {}, 'delay': 5})  # !!! shouldn't this be an addition to delayed_requests?
+            self._append_delayed_request({'func': {'method': 'get_standings', 'args': [], 'kwargs': {}}, 'time_to_req': current_dt + dt.timedelta(minutes=5)})
+            # if self.delayed_requests['get_standings']:
+            #     if current_dt + dt.timedelta(minutes=delay) < self.delayed_requests['get_standings'][2]:
+            #         self.delayed_requests['get_standings'][2] = current_dt + dt.timedelta(minutes=5)
+            #     else:
+            #         self.delayed_requests['get_standings'] = [[], {}, current_dt + dt.timedelta(minutes=5)]
             return
 
         standings = {'requestTime': dt.datetime.now().strftime(TIME_FORMAT), 'Central': {}, 'Pacific': {},
@@ -114,19 +149,24 @@ class League(threading.Thread):
                 standings[conf] = dict(sorted(standings[conf].items(),
                                               key=lambda item: (-item[1]['points'], -item[1]['pointPctg'])))
 
-        self.resp_queue.put(('save_standings', [standings], {}))
+        # self.resp_queue.put(('save_standings', [standings], {}))
+        self.resp_queue.put({'method': 'save_standings', 'args': [standings], 'kwargs': {}, 'delay': 0})
 
         return
 
     def get_schedule(self):  # , pass_data=False):
         _logger.info(f'Get {self.team} schedule')
+        current_dt = dt.datetime.now().astimezone(None)
 
         try:
+            self.requests_made.append(['get_schedule', current_dt])  # add to history
             response = requests.get('https://api-web.nhle.com/v1/club-schedule-season/' + self.team + '/now').json()
         except requests.exceptions.JSONDecodeError:
             _logger.error('No response for schedule API request!  Try again in 5 minutes.')
-            self.sched_next_get_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
+            # self.sched_next_get_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
             # self.resp_queue.put(('save_schedule', [None], {}))  # should failure be passed on or silent?
+            self._append_delayed_request({'func': {'method': 'get_schedule', 'args': [], 'kwargs': {}},
+                                         'time_to_req': current_dt + dt.timedelta(minutes=5)})
             return
 
         schedule = {'requestTime': dt.datetime.now().strftime(TIME_FORMAT), 'team': self.team, 'games': []}
@@ -146,19 +186,24 @@ class League(threading.Thread):
                 schedule['games'][-1]['homeScore'] = None
                 schedule['games'][-1]['gameOutcome'] = None
 
-        self.resp_queue.put(('save_schedule', [schedule], {}))
+        # self.resp_queue.put(('save_schedule', [schedule], {}))
+        self.resp_queue.put({'method': 'save_schedule', 'args': [schedule], 'kwargs': {}, 'delay': 0})
 
         return
 
     def get_roster(self):  # , pass_data=False):
         _logger.info(f'Get {self.team} roster')
+        current_dt = dt.datetime.now().astimezone(None)
 
         try:
+            self.requests_made.append(['get_roster', current_dt])  # add to history
             response = requests.get('https://api-web.nhle.com/v1/club-stats/' + self.team + '/now').json()
         except requests.exceptions.JSONDecodeError:
             _logger.error('No response for roster API request!  Try again in 5 minutes.')
-            self.roster_next_get_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
+            # self.roster_next_get_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
             # self.resp_queue.put(('save_roster', [None], {}))  # should failure be passed on or silent?
+            self._append_delayed_request({'func': {'method': 'get_roster', 'args': [], 'kwargs': {}},
+                                         'time_to_req': current_dt + dt.timedelta(minutes=5)})
             return
 
         roster = {'requestTime': dt.datetime.now().strftime(TIME_FORMAT), 'team': self.team, 'skaters': [],
@@ -190,19 +235,24 @@ class League(threading.Thread):
                                       'assists': glie['assists'],
                                       'points': glie['points']})
 
-        self.resp_queue.put(('save_roster', [roster], {}))
+        # self.resp_queue.put(('save_roster', [roster], {}))
+        self.resp_queue.put({'method': 'save_roster', 'args': [roster], 'kwargs': {}, 'delay': 0})
 
         return
 
     def get_game(self, game_id):  # , pass_data=False):
         _logger.debug(f'Get live data from game {game_id}')
+        current_dt = dt.datetime.now().astimezone(None)
 
         try:
+            self.requests_made.append(['get_game', current_dt])  # add to history
             response = requests.get('https://api-web.nhle.com/v1/gamecenter/' + str(game_id) + '/play-by-play').json()
         except requests.exceptions.JSONDecodeError:
             _logger.error('No response for live game API request!  Try again in 5 minutes.')
             # self._next_get_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
             # self.resp_queue.put(('save_standings', [None], {}))  # should failure be passed on or silent?
+            self._append_delayed_request({'func': {'method': 'get_game', 'args': [game_id], 'kwargs': {}},
+                                         'time_to_req': current_dt + dt.timedelta(seconds=45)})
             return
 
         game = {'id': response['id'],
@@ -237,7 +287,8 @@ class League(threading.Thread):
                 _logger.error('KeyError in League().get_game()')
 
         # _logger.debug(f'league dump {game}')
-        self.resp_queue.put(('update_live_game', [game], {}))
+        # self.resp_queue.put(('update_live_game', [game], {}))
+        self.resp_queue.put({'method': 'update_live_game', 'args': [game], 'kwargs': {}, 'delay': 0})
 
         return
 
@@ -273,34 +324,56 @@ class League(threading.Thread):
             if not self.req_queue.empty():
                 # !!! insert while queue not empty loop here
                 func_and_args = self.req_queue.get()
-                method = func_and_args[0]
-                args = func_and_args[1]
-                kwargs = func_and_args[2]
-                delay = func_and_args[3]
+                method = func_and_args['method']
+                args = func_and_args['args']
+                kwargs = func_and_args['kwargs']
+                delay = func_and_args['delay']
 
                 if hasattr(self, method):
                     if delay > 0:
-                        self.delayed_requests[method] = [args, kwargs, current_dt + timedelta(minutes=delay)]
+                        # self.delayed_requests[method] = [args, kwargs, current_dt + dt.timedelta(minutes=delay)]
+                        self._append_delayed_request({'func': {'method': method, 'args': args, 'kwargs': kwargs}, 'time_ro_req': current_dt + dt.timedelta(minutes=delay)})
                     else:
-                        getattr(self, method)(*args, **kwargs)
-                        sleep(0.1)
+                        num_made_reqs = self._len_requests_made()
+                        if num_made_reqs >= MAX_REQUESTS_PER_MIN:
+                            _logger.debug(f'Making too many requests!  Delaying {method} request.')
+                            self._append_delayed_request({'func': {'method': method, 'args': args, 'kwargs': kwargs},
+                                                          'time_ro_req': current_dt + dt.timedelta(minutes=1)})
+                        else:
+                            getattr(self, method)(*args, **kwargs)
+                            sleep(0.1)
                 else:
-                    _logger.error(f'No such method {func_and_args[0]} in League() class!')
+                    _logger.error(f'No such method {method} in League() class!')
                 # try:
                 #     getattr(self, method)(*args, **kwargs)
                 # except AttributeError:
                 #     _logger.error(f'No such method {func_and_args[0]} in League() class!')
 
-            for method in self.delayed_requests.keys():
-                if self.delayed_requests[method]:
-                    req_time = self.delayed_requests[method][2]
+            if self.delayed_requests:  # if there are any delayed reqs
+                reqs_to_make = [req for req in self.delayed_requests if req['time_to_req'] < current_dt]
+                self.delayed_requests = [req for req in self.delayed_requests if req not in reqs_to_make]
+                for req in reqs_to_make:
+                    method = req['func']['method']
+                    args = req['func']['args']
+                    kwargs = req['func']['kwargs']
 
-                    if req_time < current_dt:
-                        args = self.delayed_requests[method][0]
-                        kwargs = self.delayed_requests[method][1]
-                        self.delayed_requests[method] = []  # clear out request
+                    num_made_reqs = self._len_requests_made()
+                    if num_made_reqs >= MAX_REQUESTS_PER_MIN:
+                        _logger.debug(f'Making too many requests!  Delaying {method} request.')
+                        self._append_delayed_request({'func': {'method': method, 'args': args, 'kwargs': kwargs},
+                                                      'time_ro_req': current_dt + dt.timedelta(minutes=1)})
+                    else:
                         getattr(self, method)(*args, **kwargs)
                         sleep(0.1)
+                    # if req['']:
+                    #     req_time = self.delayed_requests[method][2]
+                    #
+                    #     if req_time < current_dt:
+                    #         args = self.delayed_requests[method][0]
+                    #         kwargs = self.delayed_requests[method][1]
+                    #         self.delayed_requests[method] = []  # clear out request
+                    #         getattr(self, method)(*args, **kwargs)
+                    #         sleep(0.1)
 
 
 class Bank(threading.Thread):
@@ -344,20 +417,24 @@ class Bank(threading.Thread):
         self.game_update_time = dt.datetime.now().astimezone(None) + dt.timedelta(days=500)  # just set to now() to establish data type
         self.live_game_pbp = {}  # play by play api
 
+        current_dt = dt.datetime.now().astimezone(None)
+
         # load league standings
         try:
             _logger.debug('Bank().init retrieve standings.json')
             with open('resources/standings.json') as f:
                 self.standings = json.load(f)
                 # refresh standings if old
-                if dt.datetime.now().astimezone(None) - dt.datetime.strptime(self.standings['requestTime'], TIME_FORMAT).astimezone(None) \
-                        > dt.timedelta(hours=6):
-                    self.league_queue.put(('get_standings', [], {}, 0))  # 'pass_data': True}))
+                if current_dt - dt.datetime.strptime(self.standings['requestTime'], TIME_FORMAT).astimezone(
+                        None) > dt.timedelta(hours=6):
+                    # self.league_queue.put(('get_standings', [], {}, 0))  # 'pass_data': True}))
+                    self.league_queue.put({'method': 'get_standings', 'args': [], 'kwargs': {}, 'delay': 0})
         except FileNotFoundError:
             _logger.debug('Bank().init standings.json does not exist, make request')
             self.standings = {}
             # make request to get league standings immediately rather than wait
-            self.league_queue.put(('get_standings', [], {}, 0))  # 'pass_data': True}))
+            # self.league_queue.put(('get_standings', [], {}, 0))  # 'pass_data': True}))
+            self.league_queue.put({'method': 'get_standings', 'args': [], 'kwargs': {}, 'delay': 0})
 
         # load team schedule
         try:
@@ -366,9 +443,10 @@ class Bank(threading.Thread):
                 self.schedule = json.load(f)
                 # refresh schedule if old
                 # !!! refresh if existing schedule is for team other than current active in settings
-                if dt.datetime.now().astimezone(None) - dt.datetime.strptime(self.schedule['requestTime'], TIME_FORMAT).astimezone(None) \
+                if current_dt - dt.datetime.strptime(self.schedule['requestTime'], TIME_FORMAT).astimezone(None) \
                         > dt.timedelta(hours=6):
-                    self.league_queue.put(('get_schedule', [], {}, 0))  # 'pass_data': True}))
+                    # self.league_queue.put(('get_schedule', [], {}, 0))  # 'pass_data': True}))
+                    self.league_queue.put({'method': 'get_schedule', 'args': [], 'kwargs': {}, 'delay': 0})
 
             # self.check_games_time = dt.datetime.now()
             self.set_game_ids()
@@ -376,7 +454,8 @@ class Bank(threading.Thread):
             _logger.debug('Bank().init schedule.json does not exist, make request')
             self.schedule = {}
             # make request to get league standings immediately rather than wait
-            self.league_queue.put(('get_schedule', [], {}, 0))  # 'pass_data': True}))
+            # self.league_queue.put(('get_schedule', [], {}, 0))  # 'pass_data': True}))
+            self.league_queue.put({'method': 'get_schedule', 'args': [], 'kwargs': {}, 'delay': 0})
             # if no schedule exists make sure to check for games in 5 seconds
             # self.check_games_time = dt.datetime.now().astimezone(None) + dt.timedelta(seconds=5)
 
@@ -387,14 +466,16 @@ class Bank(threading.Thread):
                 self.roster = json.load(f)
                 # refresh roster if old
                 # !!! refresh if existing roster if for team other than current active in settings
-                if dt.datetime.now().astimezone(None) - dt.datetime.strptime(self.roster['requestTime'], TIME_FORMAT).astimezone(None) \
+                if current_dt - dt.datetime.strptime(self.roster['requestTime'], TIME_FORMAT).astimezone(None) \
                         > dt.timedelta(hours=6):
-                    self.league_queue.put(('get_roster', [], {}, 0))  # 'pass_data': True}))
+                    # self.league_queue.put(('get_roster', [], {}, 0))  # 'pass_data': True}))
+                    self.league_queue.put({'method': 'get_roster', 'args': [], 'kwargs': {}, 'delay': 0})
         except FileNotFoundError:
             _logger.debug('Bank().init roster.json does not exist, make request')
             self.roster = {}
             # make request to get league standings immediately rather than wait
-            self.league_queue.put(('get_roster', [], {}, 0))  # 'pass_data': True}))
+            # self.league_queue.put(('get_roster', [], {}, 0))  # 'pass_data': True}))
+            self.league_queue.put({'method': 'get_roster', 'args': [], 'kwargs': {}, 'delay': 0})
 
         _logger.info('Initialize Bank() thread')
         return
@@ -462,7 +543,7 @@ class Bank(threading.Thread):
                     next_gt = dt.datetime.strptime(self.next_game['startTimeUTC'], SCHED_TIME_FORMAT).astimezone(None)
                 except KeyError:
                     self.next_game = {}
-                    next_gt = dt.datetime.now().astimezone(None) + dt.timedelta(days=500)
+                    next_gt = current_dt + dt.timedelta(days=500)
 
                 try:
                     # check if game is over
@@ -474,13 +555,13 @@ class Bank(threading.Thread):
                     else:
                         _logger.debug('Bank().set_game_ids: found likely live game, but live_game not set')
                         self.current_game = game
-                        self.game_update_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=1)
+                        self.game_update_time = current_dt + dt.timedelta(minutes=1)
                 except KeyError:
                     _logger.debug('Bank().set_game_ids: found likely live game')
                     # live_game hasn't been set yet, assume if killed elsewhere, then game_update_time would be in far
                     # future
                     self.current_game = game
-                    self.game_update_time = dt.datetime.now().astimezone(None)  # + dt.timedelta(minutes=1)
+                    self.game_update_time = current_dt  # + dt.timedelta(minutes=1)
                 break
 
             elif last_gt <= current_dt <= game_time:  # in between games
@@ -494,7 +575,7 @@ class Bank(threading.Thread):
             self.live_game_pbp = {}  # probably unnecessary
             self.current_game = {}
             self.next_game = {}
-            self.game_update_time = dt.datetime.now().astimezone(None) + dt.timedelta(days=500)
+            self.game_update_time = current_dt + dt.timedelta(days=500)
 
         return
 
@@ -506,6 +587,8 @@ class Bank(threading.Thread):
                      f'{game["id"]}')
         # _logger.debug(f'bank dump {game}')
 
+        current_dt = dt.datetime.now().astimezone(None)
+
         if game['gameState'] in ('OFF', 'FINAL'):
             # game is over, set live_game (play by play) and current_game (metadata) to empty sets, set next time
             self.live_game_pbp = {}
@@ -516,11 +599,12 @@ class Bank(threading.Thread):
                 next_game_time = dt.datetime.strptime(self.next_game['startTimeUTC'], SCHED_TIME_FORMAT).astimezone(None)
                 self.game_update_time = next_game_time - dt.timedelta(minutes=15)
             except KeyError:
-                self.game_update_time = dt.datetime.now().astimezone(None) + dt.timedelta(days=500)
-            self.league_queue.put(('get_standings', [], {'delay': 15}))  # update standings in 15 minutes
+                self.game_update_time = current_dt + dt.timedelta(days=500)
+            # self.league_queue.put(('get_standings', [], {'delay': 15}))  # update standings in 15 minutes
+            self.league_queue.put({'method': 'get_standings', 'args': [], 'kwargs': {}, 'delay': 15})  # update standings in 15 minutes
         else:
             self.live_game_pbp = game
-            self.game_update_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=1)
+            self.game_update_time = current_dt + dt.timedelta(minutes=1)
 
         return
 
@@ -535,35 +619,42 @@ class Bank(threading.Thread):
                     # !!! add while queue not empty loop here
                     _logger.debug('League to Bank Queue has a response')
                     func_and_args = self.resp_queue.get()
-                    method = func_and_args[0]
-                    args = func_and_args[1]
-                    kwargs = func_and_args[2]
-                    try:
+                    method = func_and_args['method']
+                    args = func_and_args['args']
+                    kwargs = func_and_args['kwargs']
+                    delay = func_and_args['delay']   # !!! handle this
+
+                    if hasattr(self, method):
                         getattr(self, method)(*args, **kwargs)
-                    except AttributeError:
-                        _logger.debug(f'No such method {func_and_args[0]} in Bank() class!')
+                        sleep(0.1)
+                    else:
+                        _logger.error(f'No such method {method} in Bank() class!')
+                    # try:
+                    #     getattr(self, method)(*args, **kwargs)
+                    # except AttributeError:
+                    #     _logger.debug(f'No such method {func_and_args[0]} in Bank() class!')
 
                 # run regularly scheduled standings request
                 if self.standings_next_get_time < current_dt:
                     _logger.info('Bank passing standings request')
 
-                    self.league_queue.put(('get_standings', [], {'delay': 0}, 0))
+                    # self.league_queue.put(('get_standings', [], {'delay': 0}, 0))
+                    self.league_queue.put({'method': 'get_standings', 'args': [], 'kwargs': {}, 'delay': 0})
                     self.standings_next_get_time = self.standings_next_get_time + dt.timedelta(hours=self.period_hours)
-                    sleep(0.1)
 
                 if self.sched_next_get_time < current_dt:
                     _logger.info(f'Bank() passing schedule request')
 
-                    self.league_queue.put(('get_schedule', [], {}, 0))
+                    # self.league_queue.put(('get_schedule', [], {}, 0))
+                    self.league_queue.put({'method': 'get_schedule', 'args': [], 'kwargs': {}, 'delay': 0})
                     self.sched_next_get_time = self.sched_next_get_time + dt.timedelta(hours=self.period_hours)
-                    sleep(0.1)
 
                 if self.roster_next_get_time < current_dt:
                     _logger.info(f'Bank passing roster request')
 
-                    self.league_queue.put(('get_roster', [], {}, 0))
+                    # self.league_queue.put(('get_roster', [], {}, 0))
+                    self.league_queue.put({'method': 'get_roster', 'args': [], 'kwargs': {}, 'delay': 0})
                     self.roster_next_get_time = self.roster_next_get_time + dt.timedelta(hours=self.period_hours)
-                    sleep(0.1)
 
                 # pass live game request to league
                 if self.game_update_time < current_dt:
@@ -573,7 +664,8 @@ class Bank(threading.Thread):
                         # self.game_update_time is > current_dt
                         self.set_game_ids()
                     else:
-                        self.league_queue.put(('get_game', [self.current_game['id']], {}, 0))  # 'pass_data': True}))
+                        # self.league_queue.put(('get_game', [self.current_game['id']], {}, 0))  # 'pass_data': True}))
+                        self.league_queue.put({'method': 'get_game', 'args': [self.current_game['id']], 'kwargs': {}, 'delay': 0})
                         # set to make next request in 5 minutes in case get_game doesn't get a response
                         self.game_update_time = dt.datetime.now().astimezone(None) + dt.timedelta(minutes=5)
 
