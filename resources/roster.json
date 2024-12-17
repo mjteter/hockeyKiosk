@@ -1,5 +1,5 @@
 {
-  "requestTime": "2024-11-25 21:13:49",
+  "requestTime": "2024-12-16 21:25:59",
   "team": "PHI",
   "skaters": [
     {
@@ -30,10 +30,10 @@
       "firstName": "Nick",
       "lastName": "Seeler",
       "positionCode": "D",
-      "gamesPlayed": 16,
-      "goals": 1,
-      "assists": 5,
-      "points": 6
+      "gamesPlayed": 26,
+      "goals": 2,
+      "assists": 8,
+      "points": 10
     },
     {
       "playerId": 8476461,
@@ -41,10 +41,10 @@
       "firstName": "Sean",
       "lastName": "Couturier",
       "positionCode": "C",
-      "gamesPlayed": 20,
-      "goals": 4,
-      "assists": 6,
-      "points": 10
+      "gamesPlayed": 30,
+      "goals": 6,
+      "assists": 9,
+      "points": 15
     },
     {
       "playerId": 8476872,
@@ -52,10 +52,10 @@
       "firstName": "Scott",
       "lastName": "Laughton",
       "positionCode": "C",
-      "gamesPlayed": 21,
-      "goals": 2,
-      "assists": 5,
-      "points": 7
+      "gamesPlayed": 31,
+      "goals": 7,
+      "assists": 7,
+      "points": 14
     },
     {
       "playerId": 8477499,
@@ -63,10 +63,10 @@
       "firstName": "Rasmus",
       "lastName": "Ristolainen",
       "positionCode": "D",
-      "gamesPlayed": 21,
+      "gamesPlayed": 31,
       "goals": 1,
-      "assists": 3,
-      "points": 4
+      "assists": 7,
+      "points": 8
     },
     {
       "playerId": 8477903,
@@ -74,10 +74,10 @@
       "firstName": "Garnet",
       "lastName": "Hathaway",
       "positionCode": "R",
-      "gamesPlayed": 21,
-      "goals": 2,
-      "assists": 5,
-      "points": 7
+      "gamesPlayed": 31,
+      "goals": 3,
+      "assists": 8,
+      "points": 11
     },
     {
       "playerId": 8477948,
@@ -85,10 +85,10 @@
       "firstName": "Travis",
       "lastName": "Sanheim",
       "positionCode": "D",
-      "gamesPlayed": 21,
-      "goals": 5,
-      "assists": 8,
-      "points": 13
+      "gamesPlayed": 31,
+      "goals": 6,
+      "assists": 13,
+      "points": 19
     },
     {
       "playerId": 8478409,
@@ -107,10 +107,10 @@
       "firstName": "Travis",
       "lastName": "Konecny",
       "positionCode": "R",
-      "gamesPlayed": 21,
-      "goals": 11,
-      "assists": 14,
-      "points": 25
+      "gamesPlayed": 31,
+      "goals": 15,
+      "assists": 21,
+      "points": 36
     },
     {
       "playerId": 8480015,
@@ -118,10 +118,10 @@
       "firstName": "Owen",
       "lastName": "Tippett",
       "positionCode": "R",
-      "gamesPlayed": 21,
-      "goals": 4,
-      "assists": 6,
-      "points": 10
+      "gamesPlayed": 31,
+      "goals": 9,
+      "assists": 7,
+      "points": 16
     },
     {
       "playerId": 8480028,
@@ -129,10 +129,10 @@
       "firstName": "Morgan",
       "lastName": "Frost",
       "positionCode": "C",
-      "gamesPlayed": 17,
-      "goals": 1,
-      "assists": 5,
-      "points": 6
+      "gamesPlayed": 27,
+      "goals": 4,
+      "assists": 8,
+      "points": 12
     },
     {
       "playerId": 8480068,
@@ -140,10 +140,10 @@
       "firstName": "Ryan",
       "lastName": "Poehling",
       "positionCode": "C",
-      "gamesPlayed": 18,
+      "gamesPlayed": 28,
       "goals": 1,
-      "assists": 6,
-      "points": 7
+      "assists": 8,
+      "points": 9
     },
     {
       "playerId": 8480220,
@@ -151,10 +151,10 @@
       "firstName": "Noah",
       "lastName": "Cates",
       "positionCode": "L",
-      "gamesPlayed": 17,
-      "goals": 1,
-      "assists": 3,
-      "points": 4
+      "gamesPlayed": 27,
+      "goals": 2,
+      "assists": 5,
+      "points": 7
     },
     {
       "playerId": 8480797,
@@ -162,10 +162,10 @@
       "firstName": "Joel",
       "lastName": "Farabee",
       "positionCode": "L",
-      "gamesPlayed": 21,
-      "goals": 3,
-      "assists": 5,
-      "points": 8
+      "gamesPlayed": 31,
+      "goals": 4,
+      "assists": 7,
+      "points": 11
     },
     {
       "playerId": 8481178,
@@ -173,7 +173,7 @@
       "firstName": "Egor",
       "lastName": "Zamula",
       "positionCode": "D",
-      "gamesPlayed": 16,
+      "gamesPlayed": 21,
       "goals": 1,
       "assists": 5,
       "points": 6
@@ -184,10 +184,10 @@
       "firstName": "Cam",
       "lastName": "York",
       "positionCode": "D",
-      "gamesPlayed": 8,
-      "goals": 2,
-      "assists": 1,
-      "points": 3
+      "gamesPlayed": 18,
+      "goals": 3,
+      "assists": 2,
+      "points": 5
     },
     {
       "playerId": 8481553,
@@ -195,10 +195,10 @@
       "firstName": "Bobby",
       "lastName": "Brink",
       "positionCode": "R",
-      "gamesPlayed": 18,
-      "goals": 3,
-      "assists": 7,
-      "points": 10
+      "gamesPlayed": 28,
+      "goals": 4,
+      "assists": 9,
+      "points": 13
     },
     {
       "playerId": 8482126,
@@ -206,10 +206,10 @@
       "firstName": "Emil",
       "lastName": "Andrae",
       "positionCode": "D",
-      "gamesPlayed": 11,
-      "goals": 0,
-      "assists": 3,
-      "points": 3
+      "gamesPlayed": 19,
+      "goals": 1,
+      "assists": 4,
+      "points": 5
     },
     {
       "playerId": 8482142,
@@ -217,10 +217,10 @@
       "firstName": "Jamie",
       "lastName": "Drysdale",
       "positionCode": "D",
-      "gamesPlayed": 15,
+      "gamesPlayed": 19,
       "goals": 1,
-      "assists": 2,
-      "points": 3
+      "assists": 3,
+      "points": 4
     },
     {
       "playerId": 8482159,
@@ -228,10 +228,10 @@
       "firstName": "Tyson",
       "lastName": "Foerster",
       "positionCode": "R",
-      "gamesPlayed": 20,
-      "goals": 4,
-      "assists": 2,
-      "points": 6
+      "gamesPlayed": 30,
+      "goals": 6,
+      "assists": 4,
+      "points": 10
     },
     {
       "playerId": 8482169,
@@ -239,7 +239,7 @@
       "firstName": "Helge",
       "lastName": "Grans",
       "positionCode": "D",
-      "gamesPlayed": 3,
+      "gamesPlayed": 6,
       "goals": 0,
       "assists": 1,
       "points": 1
@@ -250,10 +250,10 @@
       "firstName": "Matvei",
       "lastName": "Michkov",
       "positionCode": "R",
-      "gamesPlayed": 19,
-      "goals": 7,
-      "assists": 9,
-      "points": 16
+      "gamesPlayed": 29,
+      "goals": 11,
+      "assists": 16,
+      "points": 27
     },
     {
       "playerId": 8484779,
@@ -273,13 +273,13 @@
       "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8478905.png",
       "firstName": "Ivan",
       "lastName": "Fedotov",
-      "gamesPlayed": 7,
-      "gamesStarted": 7,
-      "wins": 3,
+      "gamesPlayed": 10,
+      "gamesStarted": 10,
+      "wins": 4,
       "losses": 4,
       "ties": 0,
-      "overtimeLosses": 0,
-      "savePercentage": 0.875,
+      "overtimeLosses": 1,
+      "savePercentage": 0.876923,
       "goals": 0,
       "assists": 0,
       "points": 0
@@ -289,13 +289,13 @@
       "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8481035.png",
       "firstName": "Samuel",
       "lastName": "Ersson",
-      "gamesPlayed": 11,
-      "gamesStarted": 10,
-      "wins": 5,
-      "losses": 2,
+      "gamesPlayed": 14,
+      "gamesStarted": 13,
+      "wins": 6,
+      "losses": 4,
       "ties": 0,
       "overtimeLosses": 2,
-      "savePercentage": 0.901887,
+      "savePercentage": 0.890578,
       "goals": 0,
       "assists": 0,
       "points": 0
@@ -305,13 +305,13 @@
       "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8482783.png",
       "firstName": "Aleksei",
       "lastName": "Kolosov",
-      "gamesPlayed": 5,
-      "gamesStarted": 4,
-      "wins": 1,
-      "losses": 4,
+      "gamesPlayed": 10,
+      "gamesStarted": 8,
+      "wins": 4,
+      "losses": 5,
       "ties": 0,
-      "overtimeLosses": 0,
-      "savePercentage": 0.876923,
+      "overtimeLosses": 1,
+      "savePercentage": 0.888889,
       "goals": 0,
       "assists": 0,
       "points": 0

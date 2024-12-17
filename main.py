@@ -56,10 +56,11 @@ def main():
         gui_to_bank_queue = queue.Queue()
 
         # initialize threads
-        league_thread = League(resp_to_bank_queue, req_to_league_queue, team=settings['team'],
-                               period_hours=settings['period'])  # , standings_tod=standings_tod,
+        league_thread = League(resp_to_bank_queue, req_to_league_queue, team=settings['team'])  # ,
+                               # period_hours=settings['period'])  # , standings_tod=standings_tod,
                                # sched_period_days=settings['schedule']['period'], sched_tod=sched_tod)
-        bank_thread = Bank(kill_flag, resp_to_bank_queue, req_to_league_queue, gui_to_bank_queue)
+        bank_thread = Bank(kill_flag, resp_to_bank_queue, req_to_league_queue, gui_to_bank_queue,
+                           period_hours=settings['period'])
 
         league_thread.name = 'League'
         bank_thread.name = 'Bank'
@@ -72,7 +73,7 @@ def main():
         bank_thread.start()
 
         # sleep for testing
-        sleep(125)
+        sleep(5)
     except KeyboardInterrupt:
         _logger.debug('Interrupt received, setting quit flag.')
         kill_flag.set()

@@ -26,7 +26,7 @@ class KillFlag(threading.Event):
 
 
 class League(threading.Thread):
-    def __init__(self, resp_queue, req_queue, team='PHI', period_hours=24,):
+    def __init__(self, resp_queue, req_queue, team='PHI'):  # , period_hours=24,):
                  # standings_tod=dt.timedelta(minutes=0),
                  # sched_tod=dt.timedelta(minutes=5)):
         # threading.Thread.__init__(self, daemon=True)
@@ -84,17 +84,17 @@ class League(threading.Thread):
             self.delayed_requests.append(delayed_req)
 
     def _len_requests_made(self) -> int:
+        _logger.debug(f'Check set of requests made {self.requests_made}')
         current_dt_delta = dt.datetime.now().astimezone(None) - dt.timedelta(minutes=1)
         #  clear out old requests
         self.requests_made = [req for req in self.requests_made if req[1] > current_dt_delta]
 
         return len(self.requests_made)
 
-    def get_standings(self, delay=0):
+    def get_standings(self):  # , delay=0):
         """
         Makes api call to get league standings
 
-        :param delay:  time to delay request in minutes.   0 if no delay desired
         :return:
         """
         current_dt = dt.datetime.now().astimezone(None)
@@ -380,7 +380,7 @@ class Bank(threading.Thread):
     """
     Threading class that acts as intermediary between gui and requesting thread
     """
-    def __init__(self, kill_flag: queue.Queue, resp_queue: queue.Queue, league_queue: queue.Queue,
+    def __init__(self, kill_flag: KillFlag, resp_queue: queue.Queue, league_queue: queue.Queue,
                  gui_queue: queue.Queue, period_hours: int = 24):
         # threading.Thread.__init__(self)  # , daemon=True)
         super().__init__()
@@ -447,9 +447,8 @@ class Bank(threading.Thread):
                         > dt.timedelta(hours=6):
                     # self.league_queue.put(('get_schedule', [], {}, 0))  # 'pass_data': True}))
                     self.league_queue.put({'method': 'get_schedule', 'args': [], 'kwargs': {}, 'delay': 0})
-
-            # self.check_games_time = dt.datetime.now()
-            self.set_game_ids()
+                else:
+                    self.set_game_ids() # !!! may need to add more of these
         except FileNotFoundError:
             _logger.debug('Bank().init schedule.json does not exist, make request')
             self.schedule = {}
@@ -503,7 +502,7 @@ class Bank(threading.Thread):
         #     self.set_game_ids()
         # if current_game is not set, then it is safe to run and possibly update game_update_time
         # this should be run in case of schedule changes
-        if not self.current_game:
+        if not self.current_game:  # is this check necessary?
             _logger.debug('Call set_game_ids() from save_schedule')
             self.set_game_ids()
         return
@@ -587,6 +586,9 @@ class Bank(threading.Thread):
                      f'{game["id"]}')
         # _logger.debug(f'bank dump {game}')
 
+        with open('resources/game_play-by-play.json', 'w') as f:
+            json.dump(game, f, indent=2)  # noqa (ignore pycharm false pos)
+
         current_dt = dt.datetime.now().astimezone(None)
 
         if game['gameState'] in ('OFF', 'FINAL'):
@@ -622,7 +624,7 @@ class Bank(threading.Thread):
                     method = func_and_args['method']
                     args = func_and_args['args']
                     kwargs = func_and_args['kwargs']
-                    delay = func_and_args['delay']   # !!! handle this
+                    # delay = func_and_args['delay']   # !!! handle this
 
                     if hasattr(self, method):
                         getattr(self, method)(*args, **kwargs)

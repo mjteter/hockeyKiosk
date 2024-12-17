@@ -1,5 +1,5 @@
 {
-  "requestTime": "2024-11-25 21:13:48",
+  "requestTime": "2024-12-16 21:25:58",
   "team": "PHI",
   "games": [
     {
@@ -314,111 +314,111 @@
       "id": 2024020338,
       "startTimeUTC": "2024-11-26T00:00:00Z",
       "gameType": 2,
-      "gameState": "LIVE",
+      "gameState": "OFF",
       "awayTeam": "VGK",
       "homeTeam": "PHI",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 5,
+      "homeScore": 4,
+      "gameOutcome": "SO"
     },
     {
       "id": 2024020356,
       "startTimeUTC": "2024-11-28T01:00:00Z",
       "gameType": 2,
-      "gameState": "FUT",
+      "gameState": "OFF",
       "awayTeam": "PHI",
       "homeTeam": "NSH",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 3,
+      "homeScore": 2,
+      "gameOutcome": "OT"
     },
     {
       "id": 2024020362,
       "startTimeUTC": "2024-11-29T18:00:00Z",
       "gameType": 2,
-      "gameState": "FUT",
+      "gameState": "OFF",
       "awayTeam": "NYR",
       "homeTeam": "PHI",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 1,
+      "homeScore": 3,
+      "gameOutcome": "REG"
     },
     {
       "id": 2024020381,
       "startTimeUTC": "2024-12-01T00:00:00Z",
       "gameType": 2,
-      "gameState": "FUT",
+      "gameState": "OFF",
       "awayTeam": "PHI",
       "homeTeam": "STL",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 3,
+      "homeScore": 2,
+      "gameOutcome": "OT"
     },
     {
       "id": 2024020414,
       "startTimeUTC": "2024-12-06T00:00:00Z",
       "gameType": 2,
-      "gameState": "FUT",
+      "gameState": "OFF",
       "awayTeam": "FLA",
       "homeTeam": "PHI",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 7,
+      "homeScore": 5,
+      "gameOutcome": "REG"
     },
     {
       "id": 2024020425,
       "startTimeUTC": "2024-12-07T18:00:00Z",
       "gameType": 2,
-      "gameState": "FUT",
+      "gameState": "OFF",
       "awayTeam": "PHI",
       "homeTeam": "BOS",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 3,
+      "homeScore": 4,
+      "gameOutcome": "OT"
     },
     {
       "id": 2024020441,
-      "startTimeUTC": "2024-12-09T00:00:00Z",
+      "startTimeUTC": "2024-12-09T00:30:00Z",
       "gameType": 2,
-      "gameState": "FUT",
+      "gameState": "OFF",
       "awayTeam": "UTA",
       "homeTeam": "PHI",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 4,
+      "homeScore": 2,
+      "gameOutcome": "REG"
     },
     {
       "id": 2024020449,
       "startTimeUTC": "2024-12-11T00:00:00Z",
       "gameType": 2,
-      "gameState": "FUT",
+      "gameState": "OFF",
       "awayTeam": "PHI",
       "homeTeam": "CBJ",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 5,
+      "homeScore": 3,
+      "gameOutcome": "REG"
     },
     {
       "id": 2024020462,
       "startTimeUTC": "2024-12-13T00:00:00Z",
       "gameType": 2,
-      "gameState": "FUT",
+      "gameState": "OFF",
       "awayTeam": "DET",
       "homeTeam": "PHI",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 1,
+      "homeScore": 4,
+      "gameOutcome": "REG"
     },
     {
       "id": 2024020476,
       "startTimeUTC": "2024-12-14T19:00:00Z",
       "gameType": 2,
-      "gameState": "FUT",
+      "gameState": "OFF",
       "awayTeam": "PHI",
       "homeTeam": "MIN",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 1,
+      "homeScore": 4,
+      "gameOutcome": "REG"
     },
     {
       "id": 2024020507,
