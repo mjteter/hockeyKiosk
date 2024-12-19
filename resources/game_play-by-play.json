@@ -1,0 +1,59 @@
+{
+  "id": 2024020507,
+  "awayTeam": "PHI",
+  "homeTeam": "DET",
+  "awayScore": 3,
+  "homeScore": 4,
+  "awaySog": 11,
+  "homeSog": 19,
+  "gameState": "LIVE",
+  "period": 3,
+  "clock": "15:38",
+  "inIntermission": false,
+  "plays": [
+    {
+      "typeDescKey": "goal",
+      "period": 1,
+      "timeInPeriod": "01:06",
+      "scoringPlayerId": 8478439
+    },
+    {
+      "typeDescKey": "goal",
+      "period": 1,
+      "timeInPeriod": "18:19",
+      "scoringPlayerId": 8477456
+    },
+    {
+      "typeDescKey": "goal",
+      "period": 2,
+      "timeInPeriod": "10:15",
+      "scoringPlayerId": 8479337
+    },
+    {
+      "typeDescKey": "goal",
+      "period": 2,
+      "timeInPeriod": "10:40",
+      "scoringPlayerId": 8480220
+    },
+    {
+      "typeDescKey": "goal",
+      "period": 2,
+      "timeInPeriod": "16:05",
+      "scoringPlayerId": 8479992
+    },
+    {
+      "typeDescKey": "goal",
+      "period": 2,
+      "timeInPeriod": "17:27",
+      "scoringPlayerId": 8480813
+    },
+    {
+      "typeDescKey": "goal",
+      "period": 3,
+      "timeInPeriod": "03:50",
+      "scoringPlayerId": 8480068
+    }
+  ],
+  "awaySituation": "",
+  "homeSituation": ""
+}

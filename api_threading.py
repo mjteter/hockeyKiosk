@@ -263,14 +263,14 @@ class League(threading.Thread):
                 'clock': response['clock']['timeRemaining'], 'inIntermission': response['clock']['inIntermission'],
                 'plays': []}
 
-        try:
+        try:  # !!! if situation in response and if timeRemaining in situation, remove try/except
             sitch = response['situation']
 
             if 'situationDescriptions' in sitch['awayTeam'].keys():
                 game['homeSituation'] = ''
-                game['awaySituation'] = sitch['awayTeam']['strength'] + 'v' + sitch['homeTeam']['strength']
+                game['awaySituation'] = str(sitch['awayTeam']['strength']) + 'v' + str(sitch['homeTeam']['strength'])
             else:
-                game['homeSituation'] = sitch['homeTeam']['strength'] + 'v' + sitch['awayTeam']['strength']
+                game['homeSituation'] = str(sitch['homeTeam']['strength']) + 'v' + str(sitch['awayTeam']['strength'])
                 game['awaySituation'] = ''
 
         except KeyError:
@@ -606,7 +606,7 @@ class Bank(threading.Thread):
             self.league_queue.put({'method': 'get_standings', 'args': [], 'kwargs': {}, 'delay': 15})  # update standings in 15 minutes
         else:
             self.live_game_pbp = game
-            self.game_update_time = current_dt + dt.timedelta(minutes=1)
+            self.game_update_time = current_dt + dt.timedelta(seconds=30)
 
         return
 

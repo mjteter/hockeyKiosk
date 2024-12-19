@@ -119,6 +119,24 @@ api power play from live game
     "situationCode": "1441"
   },
 
+  "situation": {
+    "homeTeam": {
+      "abbrev": "DET",
+      "strength": 5
+    },
+    "awayTeam": {
+      "abbrev": "PHI",
+      "situationDescriptions": [
+        "EN"
+      ],
+      "strength": 6
+    },
+    "situationCode": "0651"
+  },
+
+
+
+
 sudo fbi -T 2 -d /dev/fb1 -noverbose -a my_picture.jpg
 
 export DISPLAY=:0
