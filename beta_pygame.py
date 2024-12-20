@@ -272,7 +272,7 @@ class LiveGame(MultiPageBasePage):
         elif game_dict['period'] == 5:
             self.period = 'SO'
         self.period = self.period + (' Int' if game_dict['inIntermission'] else '')
-        self.game_clock = str(game_dict['clock'])
+        self.game_clock = game_dict['clock']
         self.away_situation = game_dict['awaySituation']
         self.home_situation = game_dict['homeSituation']
 

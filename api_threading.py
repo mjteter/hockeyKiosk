@@ -16,6 +16,25 @@ TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 SCHED_TIME_FORMAT = '%Y-%m-%dT%H:%M:%S%z'
 MAX_REQUESTS_PER_MIN = 10
 
+# list of keys for own dict matched to cascading list of keys from nhl api
+GAME_MAP = {'id': ['id'],
+            'awayTeam': ['awayTeam', 'abbrev'],
+            'homeTeam': ['homeTeam', 'abbrev'],
+            'awayScore': ['awayTeam', 'score'],
+            'homeScore': ['homeTeam', 'score'],
+            'awaySog': ['awayTeam', 'sog'],
+            'homeSog': ['homeTeam', 'sog'],
+            'gameState': ['gameState'],
+            'period': ['periodDescriptor', 'number'],
+            'clock': ['clock', 'timeRemaining'],
+            'inIntermission': ['clock', 'inIntermission'],
+            'awayStrength': ['situation', 'awayTeam', 'strength'],
+            'homeStrength': ['situation', 'homeTeam', 'strength'],
+            'awaySituation': ['situation', 'awayTeam', 'situationDescriptions'],
+            'homeSituation': ['situation', 'homeTeam', 'situationDescriptions'],
+            'situationClock': ['situation', 'timeRemaining']
+            }
+
 
 class KillFlag(threading.Event):
     """A wrapper for the typical event class to allow for overriding the
@@ -194,7 +213,7 @@ class League(threading.Thread):
         return
 
     def get_game(self, game_id):
-        _logger.debug(f'Get live data from game {game_id}')
+        _logger.debug(f'League.get_game: Make API request for game: {game_id}')
         current_dt = dt.datetime.now().astimezone(None)
 
         try:
@@ -206,36 +225,67 @@ class League(threading.Thread):
                                          'time_to_req': current_dt + dt.timedelta(seconds=45)})
             return
 
-        game = {'request_time': current_dt.strftime(TIME_FORMAT),'id': response['id'],
-                'awayTeam': response['awayTeam']['abbrev'], 'homeTeam': response['homeTeam']['abbrev'],
-                'awayScore': response['awayTeam']['score'], 'homeScore': response['homeTeam']['score'],
-                'awaySog': response['awayTeam']['sog'], 'homeSog': response['homeTeam']['sog'],
-                'gameState': response['gameState'], 'period': response['periodDescriptor']['number'],
-                'clock': response['clock']['timeRemaining'], 'inIntermission': response['clock']['inIntermission'],
-                'plays': []}
+        # with open('resources/test_game.json', 'r') as f:
+        #     response = json.load(f)
+        # with open('resources/test_game.json', 'w') as f:
+        #     json.dump(response, f, indent=2)  # noqa (ignore pycharm false pos)
 
-        try:
-            sitch = response['situation']
+        game = {'requestTime': current_dt.strftime(TIME_FORMAT)}
 
-            if 'situationDescriptions' in sitch['awayTeam'].keys():
-                game['homeSituation'] = ''
-                game['awaySituation'] = sitch['awayTeam']['strength'] + 'v' + sitch['homeTeam']['strength']
+        for key, rkeys in GAME_MAP.items():
+            temp_resp = response
+            for rk in rkeys[:-1]:
+                if rk not in temp_resp:
+                    game[key] = ''
+                    break
+                else:
+                    temp_resp = temp_resp[rk]  # let temp_resp be the sub dict in response
             else:
-                game['homeSituation'] = sitch['homeTeam']['strength'] + 'v' + sitch['awayTeam']['strength']
-                game['awaySituation'] = ''
+                if rkeys[-1] not in temp_resp:
+                    game[key] = ''
+                else:
+                    game[key] = temp_resp[rkeys[-1]]  # get the last value
 
-        except KeyError:
-            game['awaySituation'] = ''
-            game['homeSituation'] = ''
+        # game = {'request_time': current_dt.strftime(TIME_FORMAT),'id': response['id'],
+        #         'awayTeam': response['awayTeam']['abbrev'], 'homeTeam': response['homeTeam']['abbrev'],
+        #         'awayScore': response['awayTeam']['score'], 'homeScore': response['homeTeam']['score'],
+        #         'awaySog': response['awayTeam']['sog'], 'homeSog': response['homeTeam']['sog'],
+        #         'gameState': response['gameState'], 'period': response['periodDescriptor']['number'],
+        #         'clock': response['clock']['timeRemaining'], 'inIntermission': response['clock']['inIntermission'],
+        #         'plays': []}
+        #
+        # # use if statements
+        # try:
+        #     sitch = response['situation']
+        #
+        #     if 'situationDescriptions' in sitch['awayTeam'].keys():
+        #         game['homeSituation'] = ''
+        #         game['awaySituation'] = sitch['awayTeam']['strength'] + 'v' + sitch['homeTeam']['strength']
+        #     else:
+        #         game['homeSituation'] = sitch['homeTeam']['strength'] + 'v' + sitch['awayTeam']['strength']
+        #         game['awaySituation'] = ''
+        #
+        # except KeyError:
+        #     game['awaySituation'] = ''
+        #     game['homeSituation'] = ''
 
+        game['plays'] = []
         for play in response['plays']:
             try:
                 if play['typeDescKey'] == 'goal':
                     game['plays'].append({'typeDescKey': 'goal', 'period': play['periodDescriptor']['number'],
                                           'timeInPeriod': play['timeInPeriod'],
                                           'scoringPlayerId': play['details']['scoringPlayerId']})
+
+                    for plyr in response['rosterSpots']:
+                        if plyr['playerId'] == game['plays'][-1]['scoringPlayerId']:  # noqa (pycharm bs)
+                            game['plays'][-1]['scoringPlayerName'] = plyr['firstName']['default'] + ' ' + \
+                                                                     plyr['lastName']['default']
+                            break
+                    else:
+                        game['plays'][-1]['scoringPlayerName'] = ''
             except KeyError:
-                _logger.error('KeyError in League().get_game()')
+                _logger.error('KeyError in League().get_game() plays')
 
         self.resp_queue.put({'method': 'update_live_game', 'args': [game], 'kwargs': {}, 'delay': 0})
 
@@ -257,13 +307,16 @@ class League(threading.Thread):
 
                 if hasattr(self, method):
                     if delay > 0:
-                        self._append_delayed_request({'func': {'method': method, 'args': args, 'kwargs': kwargs}, 'time_ro_req': current_dt + dt.timedelta(minutes=delay)})
+                        _logger.debug(f'{method} is set to delay request {delay} minutes to '
+                                      f'{current_dt + dt.timedelta(minutes=delay)}')
+                        self._append_delayed_request({'func': {'method': method, 'args': args, 'kwargs': kwargs},
+                                                      'time_to_req': current_dt + dt.timedelta(minutes=delay)})
                     else:
                         num_made_reqs = self._len_requests_made()
                         if num_made_reqs >= MAX_REQUESTS_PER_MIN:
                             _logger.debug(f'Making too many requests!  Delaying {method} request.')
                             self._append_delayed_request({'func': {'method': method, 'args': args, 'kwargs': kwargs},
-                                                          'time_ro_req': current_dt + dt.timedelta(minutes=1)})
+                                                          'time_to_req': current_dt + dt.timedelta(minutes=1)})
                         else:
                             getattr(self, method)(*args, **kwargs)
                             sleep(0.1)
@@ -282,7 +335,7 @@ class League(threading.Thread):
                     if num_made_reqs >= MAX_REQUESTS_PER_MIN:
                         _logger.debug(f'Making too many requests!  Delaying {method} request.')
                         self._append_delayed_request({'func': {'method': method, 'args': args, 'kwargs': kwargs},
-                                                      'time_ro_req': current_dt + dt.timedelta(minutes=1)})
+                                                      'time_to_req': current_dt + dt.timedelta(minutes=1)})
                     else:
                         getattr(self, method)(*args, **kwargs)
                         sleep(0.1)
@@ -348,17 +401,35 @@ class Bank(threading.Thread):
             with open('resources/schedule.json') as f:
                 self.schedule = json.load(f)
                 self.set_game_ids()
+
+                # # load live game
+                # try:
+                #     _logger.debug('Bank().init retrieve game_play-by-play.json')
+                #     with open('resources/game_play-by-play.json') as fg:
+                #         self.live_game_pbp = json.load(fg)
+                #         # refresh game if old
+                #         if current_dt - dt.datetime.strptime(self.live_game_pbp['requestTime'], TIME_FORMAT).astimezone(
+                #                 None) > dt.timedelta(hours=6):
+                #             self.league_queue.put(
+                #                 {'method': 'get_game', 'args': [self.live_game_pbp['id']], 'kwargs': {}, 'delay': 0})
+                # except FileNotFoundError:
+                #     _logger.debug('Bank.init game_play-by-play.json does not exist, make request')
+                #     self.live_game_pbp = {}
+                #     self.league_queue.put(
+                #         {'method': 'get_game', 'args': [self.live_game_pbp['id']], 'kwargs': {}, 'delay': 0})
+
                 # refresh schedule if old
                 # !!! refresh if existing schedule is for team other than current active in settings
                 if current_dt - dt.datetime.strptime(self.schedule['requestTime'], TIME_FORMAT).astimezone(None) \
                         > dt.timedelta(hours=6):
                     self.league_queue.put({'method': 'get_schedule', 'args': [], 'kwargs': {}, 'delay': 0})
-
         except FileNotFoundError:
             _logger.debug('Bank().init schedule.json does not exist, make request')
             self.schedule = {}
             # make request to get league standings immediately rather than wait
             self.league_queue.put({'method': 'get_schedule', 'args': [], 'kwargs': {}, 'delay': 0})
+            # game request will be triggered when response is passed to Bank.save_schedule()
+
             # if no schedule exists make sure to check for games in 5 seconds
             # self.check_games_time = dt.datetime.now().astimezone(None) + dt.timedelta(seconds=5)
 
@@ -402,7 +473,6 @@ class Bank(threading.Thread):
         _logger.debug('Call set_game_ids() from save_schedule')
         self.set_game_ids()
 
-        # !!! stuff game_update here if self.schedule is set and in save_schedule
         return
 
     def save_roster(self, roster):
@@ -418,7 +488,7 @@ class Bank(threading.Thread):
 
         if not self.schedule:
             _logger.debug('Back().schedule not set for method Bank().set_game_ids()')
-            # !!! may need more error handling
+            self.league_queue.put({'method': 'get_schedule', 'args': [], 'kwargs': {}, 'delay': 0})
 
         current_dt = dt.datetime.now().astimezone(None)
         last_gt = current_dt - dt.timedelta(days=1)
@@ -438,10 +508,10 @@ class Bank(threading.Thread):
                 # handle if last game with no more games
                 try:
                     self.next_game = self.schedule['games'][ii + 1]
-                    next_gt = dt.datetime.strptime(self.next_game['startTimeUTC'], SCHED_TIME_FORMAT).astimezone(None)
+                    # next_gt = dt.datetime.strptime(self.next_game['startTimeUTC'], SCHED_TIME_FORMAT).astimezone(None)
                 except KeyError:
                     self.next_game = {}
-                    next_gt = current_dt + dt.timedelta(days=500)
+                    # next_gt = current_dt + dt.timedelta(days=500)
 
                 try:
                     # check if game is over
@@ -449,32 +519,41 @@ class Bank(threading.Thread):
                         # self.live_game_pbp = {}
                         self.last_game = game
                         self.current_game = {}
-                        self.game_update_time = next_gt - dt.timedelta(minutes=15)
+                        gm_id = self.last_game['id']
+                        # self.game_update_time = next_gt - dt.timedelta(minutes=15)
                     else:
                         _logger.debug('Bank().set_game_ids: found likely live game, but live_game not set')
                         self.current_game = game
-                        self.game_update_time = current_dt + dt.timedelta(minutes=1)
+                        gm_id = self.current_game['id']
+                        # self.game_update_time = current_dt + dt.timedelta(minutes=1)
                 except KeyError:
                     _logger.debug('Bank().set_game_ids: found likely live game')
                     # live_game hasn't been set yet, assume if killed elsewhere, then game_update_time would be in far
                     # future
                     self.current_game = game
-                    self.game_update_time = current_dt  # + dt.timedelta(minutes=1)
+                    gm_id = self.current_game['id']
+                    # self.game_update_time = current_dt  # + dt.timedelta(minutes=1)
                 break
 
             elif last_gt <= current_dt <= game_time:  # in between games
                 # self.live_game_pbp = {}  # probably unnecessary
                 self.current_game = {}
                 self.next_game = game
-                self.game_update_time = game_time - dt.timedelta(minutes=15)
+                if self.last_game:
+                    gm_id = self.last_game['id']
+                else:
+                    gm_id = self.next_game['id']
+                # self.game_update_time = game_time - dt.timedelta(minutes=15)
                 break
         else:
             self.last_game = self.schedule['games'][-1]  # last game of season
+            gm_id = self.last_game['id']
             # self.live_game_pbp = {}  # probably unnecessary
             self.current_game = {}
             self.next_game = {}
-            self.game_update_time = current_dt + dt.timedelta(days=500)
+            # self.game_update_time = current_dt + dt.timedelta(days=500)
 
+        self.league_queue.put({'method': 'get_game', 'args': [gm_id], 'kwargs': {}, 'delay': 0})
         return
 
     def update_live_game(self, game):
@@ -505,7 +584,7 @@ class Bank(threading.Thread):
             self.league_queue.put({'method': 'get_standings', 'args': [], 'kwargs': {}, 'delay': 15})  # update standings in 15 minutes
         else:
             # self.live_game_pbp = game
-            self.game_update_time = current_dt + dt.timedelta(minutes=1)
+            self.game_update_time = current_dt + dt.timedelta(seconds=30)
 
         # need to run set_game_ids somewhere in here?
 

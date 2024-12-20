@@ -1,5 +1,5 @@
 {
-  "requestTime": "2024-12-18 19:35:01",
+  "requestTime": "2024-12-20 10:37:21",
   "team": "PHI",
   "games": [
     {
@@ -424,23 +424,23 @@
       "id": 2024020507,
       "startTimeUTC": "2024-12-19T00:00:00Z",
       "gameType": 2,
-      "gameState": "LIVE",
+      "gameState": "OFF",
       "awayTeam": "PHI",
       "homeTeam": "DET",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 4,
+      "homeScore": 6,
+      "gameOutcome": "REG"
     },
     {
       "id": 2024020513,
       "startTimeUTC": "2024-12-20T00:30:00Z",
       "gameType": 2,
-      "gameState": "FUT",
+      "gameState": "OFF",
       "awayTeam": "LAK",
       "homeTeam": "PHI",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 7,
+      "homeScore": 3,
+      "gameOutcome": "REG"
     },
     {
       "id": 2024020535,
