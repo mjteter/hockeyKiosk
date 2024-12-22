@@ -1,29 +1,25 @@
-import time
-import sys, pygame
-pygame.init()
+# from io import BytesIO
+# from PIL import Image
+#
+# import os
+# os.environ['path'] += r';C:\Program Files\UniConvertor-2.0rc5\dlls'
+#
+# import cairosvg
+#
+#
+#
+# for raw_pic in os.listdir('resources/logos_raw'):
+#     out = BytesIO()
+#     cairosvg.svg2png(url='resources/logos_raw/' + raw_pic, write_to=out)
+#     image = Image.open(out)
+#     image.save('resources/logos/' + raw_pic.split('.')[0] + '.png')
 
-size = width, height = 480, 320
-speed = [2, 2]
-black = 0, 0, 0
+from PIL import Image
 
-screen = pygame.display.set_mode(size)
+image = Image.open('resources/logos/PHI_dark.png')
 
-ball = pygame.image.load("resources/bomb.gif")
-origballrect = ball.get_rect()
-ballrect = ball.get_rect()
+test1 = image.resize((177, 118), Image.LANCZOS)
+test2 = image.resize((177, 118), Image.BILINEAR)
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: sys.exit()
-
-    ballrect = ballrect.move(speed)
-    if ballrect.left < 0 or ballrect.right > width:
-        speed[0] = -speed[0]
-    if ballrect.top < 0 or ballrect.bottom > height:
-        speed[1] = -speed[1]
-
-    screen.fill(black)
-    screen.blit(ball, ballrect)
-    screen.blit(ball, origballrect)
-    pygame.display.flip()
-    time.sleep(0.1)
+test1.save('resources/test1.png')
+test2.save('resources/test2.png')

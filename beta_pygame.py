@@ -189,7 +189,7 @@ def render_font_rect_list(surface: pygame.Surface, font_rect_list: List):
 
 
 class Logo(pygame.sprite.Sprite):
-    def __init__(self, filepath: str, left_top: Tuple[int, int] = (0, 0), size: Tuple[int, int] = (170, 118)):
+    def __init__(self, filepath: str, left_top: Tuple[int, int] = (0, 0), size: Tuple[int, int] = (177, 118)):
         super().__init__()
 
         raw_logo = pygame.image.load(filepath)
@@ -235,7 +235,7 @@ class LiveGame(MultiPageBasePage):
         # self.font_path = FONT_PATH + 'JetBrainsMono-Medium.ttf'
         self.font_path = FONT_PATH + 'Roboto-Medium.ttf'
 
-        logo_width_rat = 0.35417
+        logo_width_rat = 0.36875  # 0.35417
         score_width_rat = 0.27083
         font_large_rat = 0.109375
         font_small_rat = 0.0625
@@ -273,12 +273,27 @@ class LiveGame(MultiPageBasePage):
             self.period = 'SO'
         self.period = self.period + (' Int' if game_dict['inIntermission'] else '')
         self.game_clock = game_dict['clock']
+        self.away_strength = str(game_dict['awayStrength'])
+        self.home_strength = str(game_dict['homeStrength'])
         self.away_situation = game_dict['awaySituation']
         self.home_situation = game_dict['homeSituation']
+        self.situation_clock = game_dict['situationClock']
 
-        away_logo = Logo('resources/logos/' + self.away_team + '_dark.svg',
+        if self.away_situation:
+            self.away_full_sit = self.away_strength + 'v' + self.home_strength + ' ' + ','.join(
+                self.away_situation) + ' ' + self.situation_clock
+        else:
+            self.away_full_sit = ''
+
+        if self.home_situation:
+            self.home_full_sit = self.home_strength + 'v' + self.away_strength + ' ' + ','.join(
+                self.home_situation) + ' ' + self.situation_clock
+        else:
+            self.home_full_sit = ''
+
+        away_logo = Logo('resources/logos_raw/' + self.away_team + '_dark.svg',
                          left_top=(self.border, self.border), size=(self.logo_width, self.logo_height))
-        home_logo = Logo('resources/logos/' + self.home_team + '_dark.svg',
+        home_logo = Logo('resources/logos_raw/' + self.home_team + '_dark.svg',
                          left_top=(self.border, 2 * self.border + self.logo_height),
                          size=(self.logo_width, self.logo_height))
 
@@ -320,8 +335,8 @@ class LiveGame(MultiPageBasePage):
         home_pp_rect = pygame.Rect((home_score_rect.right + self.border,
                                     home_sog_rect.top - self.border_narrow - self.font_small_height),
                                    (self.data_width, self.font_small_height))
-        pp_rect_list = multi_uniform_text_fill([[self.away_situation, away_pp_rect, 'tl'],
-                                                [self.home_situation, home_pp_rect, 'bl']],
+        pp_rect_list = multi_uniform_text_fill([[self.away_full_sit, away_pp_rect, 'tl'],
+                                                [self.home_full_sit, home_pp_rect, 'bl']],
                                                font_path=self.font_path, color=COLOR_MAIN_FONT)
 
         render_font_rect_list(self.surf, score_render_list + sog_render_list + pp_rect_list)
@@ -413,7 +428,7 @@ class MultiPage(pygame.sprite.Sprite):
                     else:
                         ii += 1
                 # print(tab_widths)
-
+        print(self.menu_font_size)
         tab_rects = []
         border_lines = []
         tab_left = 0
@@ -466,7 +481,8 @@ def main() -> None:
 
     test_game = {'id': '2024020449', 'awayTeam': 'DET', 'homeTeam': 'PHI', 'awayScore': 1, 'homeScore': 3,
                  'awaySog': 17, 'homeSog': 25, 'gameState': 'LIVE', 'period': 2, 'clock': '02:18',
-                 'homeSituation': '5v4', 'awaySituation': '', 'inIntermission': False, 'plays': []}
+                 'awayStrength': 4, 'homeStrength': 5, 'awaySituation': '', 'homeSituation': ['PP'],
+                 'situationClock': '01:23', 'inIntermission': False, 'plays': []}
 
     live_game = LiveGame(test_game, H_SIZE - TOP_MENU_H_SIZE)
     schedule = Schedule(H_SIZE - TOP_MENU_H_SIZE)

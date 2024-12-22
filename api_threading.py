@@ -24,7 +24,7 @@ GAME_MAP = {'id': ['id'],
             'homeScore': ['homeTeam', 'score'],
             'awaySog': ['awayTeam', 'sog'],
             'homeSog': ['homeTeam', 'sog'],
-            'gameState': ['gameState'],
+            'gameState': ['gameState'],  # FINAL, OFF, LIVE, FUT, PRE, CRIT
             'period': ['periodDescriptor', 'number'],
             'clock': ['clock', 'timeRemaining'],
             'inIntermission': ['clock', 'inIntermission'],
@@ -402,22 +402,6 @@ class Bank(threading.Thread):
                 self.schedule = json.load(f)
                 self.set_game_ids()
 
-                # # load live game
-                # try:
-                #     _logger.debug('Bank().init retrieve game_play-by-play.json')
-                #     with open('resources/game_play-by-play.json') as fg:
-                #         self.live_game_pbp = json.load(fg)
-                #         # refresh game if old
-                #         if current_dt - dt.datetime.strptime(self.live_game_pbp['requestTime'], TIME_FORMAT).astimezone(
-                #                 None) > dt.timedelta(hours=6):
-                #             self.league_queue.put(
-                #                 {'method': 'get_game', 'args': [self.live_game_pbp['id']], 'kwargs': {}, 'delay': 0})
-                # except FileNotFoundError:
-                #     _logger.debug('Bank.init game_play-by-play.json does not exist, make request')
-                #     self.live_game_pbp = {}
-                #     self.league_queue.put(
-                #         {'method': 'get_game', 'args': [self.live_game_pbp['id']], 'kwargs': {}, 'delay': 0})
-
                 # refresh schedule if old
                 # !!! refresh if existing schedule is for team other than current active in settings
                 if current_dt - dt.datetime.strptime(self.schedule['requestTime'], TIME_FORMAT).astimezone(None) \
@@ -566,14 +550,16 @@ class Bank(threading.Thread):
         with open('resources/game_play-by-play.json', 'w') as f:
             json.dump(game, f, indent=2)  # noqa (ignore pycharm false pos)
 
+        prior_state = self.live_game_pbp.get('gameState', 'OFF')
         current_dt = dt.datetime.now().astimezone(None)
         self.live_game_pbp = game
 
         if game['gameState'] in ('OFF', 'FINAL'):
             # game is over, set live_game (play by play) and current_game (metadata) to empty sets, set next time
             # self.live_game_pbp = {}
-            self.last_game = self.current_game
-            self.current_game = {}
+            if self.current_game:
+                self.last_game = self.current_game
+                self.current_game = {}
 
             try:
                 next_game_time = dt.datetime.strptime(self.next_game['startTimeUTC'], SCHED_TIME_FORMAT).astimezone(None)
@@ -581,7 +567,9 @@ class Bank(threading.Thread):
             except KeyError:
                 self.game_update_time = current_dt + dt.timedelta(days=500)
 
-            self.league_queue.put({'method': 'get_standings', 'args': [], 'kwargs': {}, 'delay': 15})  # update standings in 15 minutes
+            if prior_state not in ['OFF', 'FINAL']:
+                # update standings in 15 minutes if game state has changed
+                self.league_queue.put({'method': 'get_standings', 'args': [], 'kwargs': {}, 'delay': 15})
         else:
             # self.live_game_pbp = game
             self.game_update_time = current_dt + dt.timedelta(seconds=30)
