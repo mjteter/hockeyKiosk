@@ -51,13 +51,13 @@ _logger_api.setLevel(logging.DEBUG)
 
 
 def get_settings():
-    try:
-        with open('resources/settings.json') as f:
-            settings = json.load(f)
-    except FileNotFoundError:
-        settings = {'team': 'PHI',
-                    'period': 6,  # time in hours to routinely refresh standings, schedule, roster, etc
-                    }
+    # try:
+    #     with open('resources/settings.json') as f:
+    #         settings = json.load(f)
+    # except FileNotFoundError:
+    settings = {'team': 'PHI',
+                'period': 6,  # time in hours to routinely refresh standings, schedule, roster, etc
+                }
 
     return settings
 

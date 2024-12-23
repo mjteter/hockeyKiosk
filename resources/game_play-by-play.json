@@ -1,15 +1,15 @@
 {
-  "requestTime": "2024-12-20 16:59:20",
-  "id": 2024020513,
-  "awayTeam": "LAK",
+  "requestTime": "2024-12-22 21:30:08",
+  "id": 2024020535,
+  "awayTeam": "CBJ",
   "homeTeam": "PHI",
-  "awayScore": 7,
-  "homeScore": 3,
-  "awaySog": 27,
-  "homeSog": 26,
+  "awayScore": 4,
+  "homeScore": 5,
+  "awaySog": 25,
+  "homeSog": 30,
   "gameState": "OFF",
-  "period": 3,
-  "clock": "00:00",
+  "period": 4,
+  "clock": "01:30",
   "inIntermission": false,
   "awayStrength": "",
   "homeStrength": "",
@@ -20,72 +20,65 @@
     {
       "typeDescKey": "goal",
       "period": 1,
-      "timeInPeriod": "10:53",
-      "scoringPlayerId": 8477942,
-      "scoringPlayerName": "Kevin Fiala"
+      "timeInPeriod": "15:47",
+      "scoringPlayerId": 8479671,
+      "scoringPlayerName": "Mathieu Olivier"
     },
     {
       "typeDescKey": "goal",
-      "period": 1,
-      "timeInPeriod": "14:11",
+      "period": 2,
+      "timeInPeriod": "07:05",
+      "scoringPlayerId": 8482451,
+      "scoringPlayerName": "Mikael Pyyhtia"
+    },
+    {
+      "typeDescKey": "goal",
+      "period": 3,
+      "timeInPeriod": "06:53",
+      "scoringPlayerId": 8480028,
+      "scoringPlayerName": "Morgan Frost"
+    },
+    {
+      "typeDescKey": "goal",
+      "period": 3,
+      "timeInPeriod": "08:48",
       "scoringPlayerId": 8480220,
       "scoringPlayerName": "Noah Cates"
     },
     {
       "typeDescKey": "goal",
-      "period": 2,
-      "timeInPeriod": "01:31",
-      "scoringPlayerId": 8479661,
-      "scoringPlayerName": "Tanner Jeannot"
+      "period": 3,
+      "timeInPeriod": "10:01",
+      "scoringPlayerId": 8480893,
+      "scoringPlayerName": "Kirill Marchenko"
     },
     {
       "typeDescKey": "goal",
-      "period": 2,
-      "timeInPeriod": "11:30",
+      "period": 3,
+      "timeInPeriod": "11:51",
+      "scoringPlayerId": 8480028,
+      "scoringPlayerName": "Morgan Frost"
+    },
+    {
+      "typeDescKey": "goal",
+      "period": 3,
+      "timeInPeriod": "15:49",
+      "scoringPlayerId": 8481161,
+      "scoringPlayerName": "Jake Christiansen"
+    },
+    {
+      "typeDescKey": "goal",
+      "period": 3,
+      "timeInPeriod": "18:16",
       "scoringPlayerId": 8482159,
       "scoringPlayerName": "Tyson Foerster"
     },
     {
       "typeDescKey": "goal",
-      "period": 2,
-      "timeInPeriod": "15:04",
-      "scoringPlayerId": 8482159,
-      "scoringPlayerName": "Tyson Foerster"
-    },
-    {
-      "typeDescKey": "goal",
-      "period": 2,
-      "timeInPeriod": "19:16",
-      "scoringPlayerId": 8471685,
-      "scoringPlayerName": "Anze Kopitar"
-    },
-    {
-      "typeDescKey": "goal",
-      "period": 3,
-      "timeInPeriod": "01:54",
-      "scoringPlayerId": 8477998,
-      "scoringPlayerName": "Warren Foegele"
-    },
-    {
-      "typeDescKey": "goal",
-      "period": 3,
-      "timeInPeriod": "10:39",
-      "scoringPlayerId": 8471685,
-      "scoringPlayerName": "Anze Kopitar"
-    },
-    {
-      "typeDescKey": "goal",
-      "period": 3,
-      "timeInPeriod": "16:23",
-      "scoringPlayerId": 8482124,
-      "scoringPlayerName": "Quinton Byfield"
-    },
-    {
-      "typeDescKey": "goal",
-      "period": 3,
-      "timeInPeriod": "17:34",
-      "scoringPlayerId": 8477942,
-      "scoringPlayerName": "Kevin Fiala"
+      "period": 4,
+      "timeInPeriod": "03:30",
+      "scoringPlayerId": 8480015,
+      "scoringPlayerName": "Owen Tippett"
     }
   ]
 }

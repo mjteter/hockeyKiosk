@@ -1,5 +1,7 @@
 Caution: This code was written by an idiot.  Use at your own peril.
 
+Many parts taken from LoveBootCaptain's WeatherPi_Tft
+
 https://learn.adafruit.com/adafruit-pitft-3-dot-5-touch-screen-for-raspberry-pi/easy-install-2
 
 64-bit boards seem to work better
@@ -85,7 +87,7 @@ gpio -g pwm 18 0
 Switch to regular venv
 source .venv/bin/activate
 
-pip install pigpio pygame-ce
+pip install pigpio pygame-ce pillow
 pip install pygame-menu --no-deps
 
 

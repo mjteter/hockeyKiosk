@@ -1,0 +1,30 @@
+{
+  "DATE_FORMAT": {
+    "DATE": "%a - %m.%d.%Y",
+    "TIME": "%H:%M:%S"
+  },
+  "COLOR": {
+    "BACKGROUND": [15, 15, 18],
+    "MAIN_FONT": [225, 225, 228],
+    "ACTIVE_FONT": [195, 195, 198],
+    "INACTIVE_FONT": [180, 180, 183],
+    "BORDER": [180, 180, 183],
+    "BLACK": [0, 0, 0],
+    "DARK_GRAY": [66, 66, 66],
+    "WHITE": [255, 255, 255],
+    "RED": [214, 74, 75],
+    "GREEN": [106, 135, 89],
+    "BLUE": [52, 152, 219],
+    "YELLOW": [187, 181, 41],
+    "ORANGE": [204, 120, 50],
+    "VIOLET": [152, 118, 170]
+  },
+  "FONT": {
+    "MEDIUM": "JetBrainsMono-Medium.ttf",
+    "BOLD": "JetBrainsMono-ExtraBold.ttf",
+    "MENU_SIZE": 22,
+    "SCORE_SIZE": 110,
+    "SMALL_SIZE": 16,
+    "BIG_SIZE": 28
+  }
+}

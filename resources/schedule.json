@@ -1,5 +1,5 @@
 {
-  "requestTime": "2024-12-20 16:57:43",
+  "requestTime": "2024-12-22 21:30:07",
   "team": "PHI",
   "games": [
     {
@@ -446,12 +446,12 @@
       "id": 2024020535,
       "startTimeUTC": "2024-12-22T00:00:00Z",
       "gameType": 2,
-      "gameState": "FUT",
+      "gameState": "OFF",
       "awayTeam": "CBJ",
       "homeTeam": "PHI",
-      "awayScore": null,
-      "homeScore": null,
-      "gameOutcome": null
+      "awayScore": 4,
+      "homeScore": 5,
+      "gameOutcome": "OT"
     },
     {
       "id": 2024020550,
