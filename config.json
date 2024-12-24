@@ -6,6 +6,7 @@
     "AA": true,
     "ANIMATION": true,
     "FRAMEBUFFER": "/dev/fb1",
+    "ADD_ENV_VARS": false,
     "PWM": false,
     "SHOW_FPS": true,
     "SHOW_API_STATS": true,
@@ -35,5 +36,5 @@
     "UPDATE": 420,
     "RELOAD": 60
   },
-  "ENV": "Pi"
+  "ENV": "STAGE"
 }

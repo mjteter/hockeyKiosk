@@ -22,7 +22,7 @@
 
 import datetime
 import json
-import locale
+# import locale
 import logging
 import math
 import os
@@ -54,7 +54,7 @@ ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)
 
 # create formatter
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s.%(msecs)03d - %(name)s - %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
 
 # add formatter to ch
 ch.setFormatter(formatter)
@@ -65,7 +65,43 @@ logger.addHandler(ch)
 config_data = open(PATH + 'config.json').read()
 config = json.loads(config_data)
 
+theme_config = config["THEME"]
+
+theme_settings = open(PATH + theme_config).read()
+theme = json.loads(theme_settings)
+
+SERVER = config['NHL_URL']
+HEADERS = {}
+
+# locale.setlocale(locale.LC_ALL, (config['LOCALE']['ISO'], 'UTF-8'))  # assume USA
+
+THREADS = []
+
+try:
+    # if you do local development you can add a mock server (e.g. from postman.io our your homebrew solution)
+    # simple add this variables to your config.json to save api-requests
+    # or to create your own custom test data for your own dashboard views)
+    if config['ENV'] == 'DEV':
+        SERVER = config['MOCKSERVER_URL']
+        # WEATHERBIT_IO_KEY = config['WEATHERBIT_DEV_KEY']
+        HEADERS = {'X-Api-Key': f'{config["MOCKSERVER_API_KEY"]}'}
+
+    elif config['ENV'] == 'STAGE':
+        # WEATHERBIT_IO_KEY = config['WEATHERBIT_DEV_KEY']
+        pass
+    elif config['ENV'] == 'Pi':
+        if config['DISPLAY']['FRAMEBUFFER'] is not False and config['DISPLAY']['ADD_ENV_VARS']:
+            # using the dashboard on a raspberry with TFT displays might make this necessary
+            os.putenv('SDL_FBDEV', config['DISPLAY']['FRAMEBUFFER'])
+            os.environ["SDL_VIDEODRIVER"] = "fbcon"
+
+        LOG_PATH = '/mnt/ramdisk/'
+        # WEATHERBIT_IO_KEY = config['WEATHERBIT_IO_KEY']
+
+    logger.info(f"STARTING IN {config['ENV']} MODE")
 
 
-
+except Exception as e:
+    logger.warning(e)
+    quit()
 
