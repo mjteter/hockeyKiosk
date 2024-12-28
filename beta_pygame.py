@@ -416,7 +416,7 @@ class MultiPage(pygame.sprite.Sprite):
         # determine what the correct font size should be
         menu_text_fits = False
         self.menu_font_size = 50
-        tab_widths = [10 for ii in range(self.total_tabs)]
+        tab_widths = [10 for _ in range(self.total_tabs)]
 
         while not menu_text_fits:
             self.menu_font = pygame.font.Font(FONT_PATH + 'JetBrainsMono-Medium.ttf', self.menu_font_size)

@@ -1,4 +1,5 @@
 {
+  "LOGO_SUFFIX": "_dark",
   "DATE_FORMAT": {
     "DATE": "%a - %m.%d.%Y",
     "TIME": "%H:%M:%S"
