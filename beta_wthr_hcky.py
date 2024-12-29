@@ -80,6 +80,12 @@ SERVER = config['NHL_URL']
 NHL_TEAM = config['NHL_TEAM']
 GAME_ID = config['DEFAULT_GAME']
 HEADERS = {}
+# WEATHERBIT_COUNTRY = config['WEATHERBIT_COUNTRY']
+# WEATHERBIT_LANG = config['WEATHERBIT_LANGUAGE']
+# WEATHERBIT_POSTALCODE = config['WEATHERBIT_POSTALCODE']
+# WEATHERBIT_HOURS = config['WEATHERBIT_HOURS']
+# WEATHERBIT_DAYS = config['WEATHERBIT_DAYS']
+# METRIC = config['LOCALE']['METRIC']
 
 # locale.setlocale(locale.LC_ALL, (config['LOCALE']['ISO'], 'UTF-8'))  # assume USA
 
@@ -110,9 +116,11 @@ try:
     # or to create your own custom test data for your own dashboard views)
     if config['ENV'] == 'DEV':
         SERVER = config['MOCKSERVER_URL']
+        # WEATHERBIT_IO_KEY = config['WEATHERBIT_DEV_KEY']
         HEADERS = {'X-Api-Key': f'{config["MOCKSERVER_API_KEY"]}'}
 
     elif config['ENV'] == 'STAGE':
+        # WEATHERBIT_IO_KEY = config['WEATHERBIT_DEV_KEY']
         pass
     elif config['ENV'] == 'Pi':
         if config['DISPLAY']['FRAMEBUFFER'] is not False and config['DISPLAY']['ADD_ENV_VARS']:
@@ -121,8 +129,11 @@ try:
             os.environ["SDL_VIDEODRIVER"] = "fbcon"
 
         LOG_PATH = '/mnt/ramdisk/'
+        # WEATHERBIT_IO_KEY = config['WEATHERBIT_IO_KEY']
 
     logger.info(f"STARTING IN {config['ENV']} MODE")
+
+
 except Exception as e:
     logger.warning(e)
     quit()
@@ -133,6 +144,22 @@ pygame.font.init()
 pygame.mouse.set_visible(config['DISPLAY']['MOUSE'])
 pygame.display.set_caption('HockeyKiosk')
 
+
+def quit_all():
+
+    pygame.display.quit()
+    pygame.quit()
+
+    global THREADS
+
+    for thread in THREADS:
+        logger.info(f'Thread killed {thread}')
+        thread.cancel()
+        thread.join()
+
+    sys.exit()
+
+
 PWM = config['DISPLAY']['PWM']
 
 if PWM:
@@ -140,6 +167,7 @@ if PWM:
     os.system(f"gpio -g mode {PWM} pwm")
 else:
     logger.info('no PWM for brightness control configured')
+
 
 # display settings from theme config
 DISPLAY_WIDTH = int(config["DISPLAY"]["WIDTH"])
@@ -167,10 +195,44 @@ SHOW_FPS = config['DISPLAY']['SHOW_FPS']
 AA = config['DISPLAY']['AA']
 ANIMATION = config['DISPLAY']['ANIMATION']
 
+
+# # correction for 1:1 displays like hyperpixel4 square
+# if DISPLAY_WIDTH / DISPLAY_HEIGHT == 1:
+#     logger.info(f'square display configuration detected')
+#     square_width = int(DISPLAY_WIDTH / float(4 / 3))
+#     SCALE = float(square_width / SURFACE_WIDTH)
+#
+#     logger.info(f'scale and display correction caused by square display')
+#     logger.info(f'DISPLAY_WIDTH: {square_width} new SCALE: {SCALE}')
+
+# # check if a landscape display is configured
+# if DISPLAY_WIDTH > DISPLAY_HEIGHT:
+#     logger.info(f'landscape display configuration detected')
+#     SCALE = float(DISPLAY_HEIGHT / SURFACE_HEIGHT)
+#
+#     logger.info(f'scale and display correction caused by landscape display')
+#     logger.info(f'DISPLAY_HEIGHT: {DISPLAY_HEIGHT} new SCALE: {SCALE}')
+
 # zoom the application surface rendering to display size scale
 if SCALE != 1:
     ZOOM = SCALE
 
+    # if DISPLAY_WIDTH < SURFACE_WIDTH:
+    #     logger.info('screen smaller as surface area - zooming smaller')
+    #     SURFACE_WIDTH = DISPLAY_WIDTH
+    #     SURFACE_HEIGHT = int(SURFACE_WIDTH / SURFACE_RATIO)
+    #     logger.info(f'surface correction caused by small display')
+    #     if DISPLAY_WIDTH == DISPLAY_HEIGHT:
+    #         logger.info('small and square')
+    #         ZOOM = round(ZOOM, 2)
+    #     else:
+    #         ZOOM = round(ZOOM, 1)
+    #     logger.info(f'zoom correction caused by small display')
+    # else:
+    #     logger.info('screen bigger as surface area - zooming bigger')
+    #     SURFACE_WIDTH = int(SURFACE_WIDTH * ZOOM)
+    #     SURFACE_HEIGHT = int(SURFACE_HEIGHT * ZOOM)
+    #     logger.info(f'surface correction caused by bigger display')
     SURFACE_WIDTH = int(SURFACE_WIDTH * ZOOM)
     SURFACE_HEIGHT = int(SURFACE_HEIGHT * ZOOM)
 
@@ -230,33 +292,25 @@ FONT_BIG_BOLD = pygame.font.Font(FONT_PATH / FONT_BOLD, BIG_SIZE)
 FONT_MENU = pygame.font.Font(FONT_PATH / FONT_MEDIUM, MENU_SIZE)
 FONT_SCORE = pygame.font.Font(FONT_PATH / FONT_BOLD, SCORE_SIZE)
 
+# WEATHERICON = 'unknown'
+#
+# FORECASTICON_DAY_1 = 'unknown'
+# FORECASTICON_DAY_2 = 'unknown'
+# FORECASTICON_DAY_3 = 'unknown'
 AWAY_LOGO = 'unknown'
 HOME_LOGO = 'unknown'
 
 CONNECTION_ERROR = True
 REFRESH_ERROR = True
 PATH_ERROR = True
+# PRECIPTYPE = 'NULL'
+# PRECIPCOLOR = WHITE
 
 CONNECTION = False
 READING = False
 UPDATING = False
 
 JSON_DATA = {}
-
-
-def quit_all():
-
-    pygame.display.quit()
-    pygame.quit()
-
-    global THREADS
-
-    for thread in THREADS:
-        logger.info(f'Thread killed {thread}')
-        thread.cancel()
-        thread.join()
-
-    sys.exit()
 
 
 def image_factory(image_path: Path):

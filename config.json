@@ -3,8 +3,8 @@
     "WIDTH": 480,
     "HEIGHT": 320,
     "FPS": 20,
-    "AA": true,
-    "ANIMATION": false,
+    "AA": false,
+    "ANIMATION": true,
     "FRAMEBUFFER": "/dev/fb1",
     "ADD_ENV_VARS": false,
     "PWM": false,
@@ -15,19 +15,6 @@
   "NHL_TEAM": "PHI",
   "DEFAULT_GAME": "2024020022",
   "NHL_URL": "https://api-web.nhle.com/v1",
-  "STANDINGS_POSTFIX": "standings/now",
-  "SCHEDULE_POSTFIX": {
-    "PRE": "club-schedule-season",
-    "POST":  "now"
-  },
-  "ROSTER_POSTFIX": {
-    "PRE": "club-stats",
-    "POST": "now"
-  },
-  "GAME_POSTFIX": {
-    "PRE": "gamecenter",
-    "POST": "play-by-play"
-  },
   "LOCALE": {
     "ISO": "en_US"
   },

@@ -2,88 +2,46 @@
   "game": {
     "awayScore": 3,
     "awaySituation": "",
-    "awaySog": 27,
+    "awaySog": 25,
     "awayStrength": "",
     "awayTeam": "PHI",
     "clock": "00:00",
     "gameState": "OFF",
-    "homeScore": 7,
+    "homeScore": 1,
     "homeSituation": "",
-    "homeSog": 22,
+    "homeSog": 33,
     "homeStrength": "",
-    "homeTeam": "PIT",
-    "id": 2024020550,
+    "homeTeam": "ANA",
+    "id": 2024020568,
     "inIntermission": false,
     "period": 3,
     "plays": [
       {
-        "period": 1,
-        "scoringPlayerId": 8475810,
-        "scoringPlayerName": "Bryan Rust",
-        "timeInPeriod": "01:29",
-        "typeDescKey": "goal"
-      },
-      {
-        "period": 1,
-        "scoringPlayerId": 8481178,
-        "scoringPlayerName": "Egor Zamula",
-        "timeInPeriod": "06:12",
-        "typeDescKey": "goal"
-      },
-      {
-        "period": 1,
-        "scoringPlayerId": 8476483,
-        "scoringPlayerName": "Rickard Rakell",
-        "timeInPeriod": "11:53",
-        "typeDescKey": "goal"
-      },
-      {
-        "period": 1,
-        "scoringPlayerId": 8478047,
-        "scoringPlayerName": "Michael Bunting",
-        "timeInPeriod": "16:15",
-        "typeDescKey": "goal"
-      },
-      {
-        "period": 1,
-        "scoringPlayerId": 8481577,
-        "scoringPlayerName": "Philip Tomasino",
-        "timeInPeriod": "17:44",
-        "typeDescKey": "goal"
-      },
-      {
         "period": 2,
         "scoringPlayerId": 8480220,
         "scoringPlayerName": "Noah Cates",
-        "timeInPeriod": "04:29",
+        "timeInPeriod": "04:03",
         "typeDescKey": "goal"
       },
       {
         "period": 2,
-        "scoringPlayerId": 8476461,
-        "scoringPlayerName": "Sean Couturier",
-        "timeInPeriod": "13:06",
-        "typeDescKey": "goal"
-      },
-      {
-        "period": 2,
-        "scoringPlayerId": 8478047,
-        "scoringPlayerName": "Michael Bunting",
-        "timeInPeriod": "18:48",
+        "scoringPlayerId": 8478873,
+        "scoringPlayerName": "Troy Terry",
+        "timeInPeriod": "15:38",
         "typeDescKey": "goal"
       },
       {
         "period": 3,
-        "scoringPlayerId": 8471675,
-        "scoringPlayerName": "Sidney Crosby",
-        "timeInPeriod": "17:30",
+        "scoringPlayerId": 8480028,
+        "scoringPlayerName": "Morgan Frost",
+        "timeInPeriod": "05:57",
         "typeDescKey": "goal"
       },
       {
         "period": 3,
-        "scoringPlayerId": 8481481,
-        "scoringPlayerName": "Blake Lizotte",
-        "timeInPeriod": "19:48",
+        "scoringPlayerId": 8480797,
+        "scoringPlayerName": "Joel Farabee",
+        "timeInPeriod": "17:40",
         "typeDescKey": "goal"
       }
     ],
@@ -110,8 +68,8 @@
       {
         "assists": 0,
         "firstName": "Samuel",
-        "gamesPlayed": 17,
-        "gamesStarted": 16,
+        "gamesPlayed": 18,
+        "gamesStarted": 17,
         "goals": 0,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8481035.png",
         "lastName": "Ersson",
@@ -119,9 +77,9 @@
         "overtimeLosses": 2,
         "playerId": 8481035,
         "points": 0,
-        "savePercentage": 0.872123,
+        "savePercentage": 0.879717,
         "ties": 0,
-        "wins": 7
+        "wins": 8
       },
       {
         "assists": 0,
@@ -166,7 +124,7 @@
       {
         "assists": 9,
         "firstName": "Nick",
-        "gamesPlayed": 30,
+        "gamesPlayed": 31,
         "goals": 2,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8476372.png",
         "lastName": "Seeler",
@@ -177,7 +135,7 @@
       {
         "assists": 11,
         "firstName": "Sean",
-        "gamesPlayed": 33,
+        "gamesPlayed": 34,
         "goals": 7,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8476461.png",
         "lastName": "Couturier",
@@ -186,20 +144,20 @@
         "positionCode": "C"
       },
       {
-        "assists": 11,
+        "assists": 12,
         "firstName": "Scott",
-        "gamesPlayed": 35,
+        "gamesPlayed": 36,
         "goals": 7,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8476872.png",
         "lastName": "Laughton",
         "playerId": 8476872,
-        "points": 18,
+        "points": 19,
         "positionCode": "C"
       },
       {
         "assists": 7,
         "firstName": "Rasmus",
-        "gamesPlayed": 35,
+        "gamesPlayed": 36,
         "goals": 1,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8477499.png",
         "lastName": "Ristolainen",
@@ -210,7 +168,7 @@
       {
         "assists": 8,
         "firstName": "Garnet",
-        "gamesPlayed": 35,
+        "gamesPlayed": 36,
         "goals": 3,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8477903.png",
         "lastName": "Hathaway",
@@ -221,7 +179,7 @@
       {
         "assists": 14,
         "firstName": "Travis",
-        "gamesPlayed": 35,
+        "gamesPlayed": 36,
         "goals": 6,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8477948.png",
         "lastName": "Sanheim",
@@ -243,7 +201,7 @@
       {
         "assists": 25,
         "firstName": "Travis",
-        "gamesPlayed": 35,
+        "gamesPlayed": 36,
         "goals": 16,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8478439.png",
         "lastName": "Konecny",
@@ -254,7 +212,7 @@
       {
         "assists": 11,
         "firstName": "Owen",
-        "gamesPlayed": 35,
+        "gamesPlayed": 36,
         "goals": 11,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8480015.png",
         "lastName": "Tippett",
@@ -265,18 +223,18 @@
       {
         "assists": 9,
         "firstName": "Morgan",
-        "gamesPlayed": 31,
-        "goals": 6,
+        "gamesPlayed": 32,
+        "goals": 7,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8480028.png",
         "lastName": "Frost",
         "playerId": 8480028,
-        "points": 15,
+        "points": 16,
         "positionCode": "C"
       },
       {
         "assists": 9,
         "firstName": "Ryan",
-        "gamesPlayed": 32,
+        "gamesPlayed": 33,
         "goals": 2,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8480068.png",
         "lastName": "Poehling",
@@ -287,12 +245,12 @@
       {
         "assists": 6,
         "firstName": "Noah",
-        "gamesPlayed": 31,
-        "goals": 6,
+        "gamesPlayed": 32,
+        "goals": 7,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8480220.png",
         "lastName": "Cates",
         "playerId": 8480220,
-        "points": 12,
+        "points": 13,
         "positionCode": "L"
       },
       {
@@ -309,18 +267,18 @@
       {
         "assists": 8,
         "firstName": "Joel",
-        "gamesPlayed": 35,
-        "goals": 4,
+        "gamesPlayed": 36,
+        "goals": 5,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8480797.png",
         "lastName": "Farabee",
         "playerId": 8480797,
-        "points": 12,
+        "points": 13,
         "positionCode": "L"
       },
       {
         "assists": 5,
         "firstName": "Egor",
-        "gamesPlayed": 25,
+        "gamesPlayed": 26,
         "goals": 2,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8481178.png",
         "lastName": "Zamula",
@@ -329,25 +287,25 @@
         "positionCode": "D"
       },
       {
-        "assists": 4,
+        "assists": 5,
         "firstName": "Cam",
-        "gamesPlayed": 21,
+        "gamesPlayed": 22,
         "goals": 3,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8481546.png",
         "lastName": "York",
         "playerId": 8481546,
-        "points": 7,
+        "points": 8,
         "positionCode": "D"
       },
       {
-        "assists": 11,
+        "assists": 12,
         "firstName": "Bobby",
-        "gamesPlayed": 32,
+        "gamesPlayed": 33,
         "goals": 4,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8481553.png",
         "lastName": "Brink",
         "playerId": 8481553,
-        "points": 15,
+        "points": 16,
         "positionCode": "R"
       },
       {
@@ -364,7 +322,7 @@
       {
         "assists": 4,
         "firstName": "Jamie",
-        "gamesPlayed": 23,
+        "gamesPlayed": 24,
         "goals": 1,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8482142.png",
         "lastName": "Drysdale",
@@ -375,7 +333,7 @@
       {
         "assists": 7,
         "firstName": "Tyson",
-        "gamesPlayed": 34,
+        "gamesPlayed": 35,
         "goals": 9,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8482159.png",
         "lastName": "Foerster",
@@ -397,7 +355,7 @@
       {
         "assists": 16,
         "firstName": "Matvei",
-        "gamesPlayed": 33,
+        "gamesPlayed": 34,
         "goals": 11,
         "headshot": "https://assets.nhle.com/mugs/nhl/20242025/PHI/8484387.png",
         "lastName": "Michkov",
@@ -884,12 +842,12 @@
         "startTimeUTC": "2024-12-24T00:00:00Z"
       },
       {
-        "awayScore": null,
+        "awayScore": 3,
         "awayTeam": "PHI",
-        "gameOutcome": null,
-        "gameState": "FUT",
+        "gameOutcome": "REG",
+        "gameState": "OFF",
         "gameType": 2,
-        "homeScore": null,
+        "homeScore": 1,
         "homeTeam": "ANA",
         "id": 2024020568,
         "startTimeUTC": "2024-12-28T21:00:00Z"
@@ -1406,248 +1364,114 @@
   "standings": {
     "Atlantic": {
       "BOS": {
-        "gamesPlayed": 36,
-        "losses": 13,
+        "gamesPlayed": 38,
+        "losses": 14,
         "otLosses": 4,
-        "pointPctg": 0.583333,
-        "points": 42,
-        "wins": 19
+        "pointPctg": 0.578947,
+        "points": 44,
+        "wins": 20
       },
       "FLA": {
-        "gamesPlayed": 36,
-        "losses": 12,
+        "gamesPlayed": 37,
+        "losses": 13,
         "otLosses": 2,
-        "pointPctg": 0.638889,
+        "pointPctg": 0.621622,
         "points": 46,
         "wins": 22
       },
       "TOR": {
-        "gamesPlayed": 35,
-        "losses": 12,
+        "gamesPlayed": 37,
+        "losses": 13,
         "otLosses": 2,
-        "pointPctg": 0.628571,
-        "points": 44,
-        "wins": 21
+        "pointPctg": 0.621622,
+        "points": 46,
+        "wins": 22
       }
     },
     "Central": {
       "COL": {
-        "gamesPlayed": 36,
+        "gamesPlayed": 37,
         "losses": 15,
         "otLosses": 0,
-        "pointPctg": 0.583333,
-        "points": 42,
-        "wins": 21
+        "pointPctg": 0.594595,
+        "points": 44,
+        "wins": 22
       },
       "MIN": {
-        "gamesPlayed": 35,
-        "losses": 10,
-        "otLosses": 4,
-        "pointPctg": 0.657143,
-        "points": 46,
-        "wins": 21
-      },
-      "WPG": {
         "gamesPlayed": 36,
         "losses": 10,
+        "otLosses": 4,
+        "pointPctg": 0.666667,
+        "points": 48,
+        "wins": 22
+      },
+      "WPG": {
+        "gamesPlayed": 37,
+        "losses": 10,
         "otLosses": 1,
-        "pointPctg": 0.708333,
-        "points": 51,
-        "wins": 25
+        "pointPctg": 0.716216,
+        "points": 53,
+        "wins": 26
       }
     },
     "Eastern": {
       "BUF": {
-        "gamesPlayed": 35,
+        "gamesPlayed": 36,
         "losses": 19,
         "otLosses": 4,
-        "pointPctg": 0.4,
-        "points": 28,
-        "wins": 12
+        "pointPctg": 0.416667,
+        "points": 30,
+        "wins": 13
       },
       "CBJ": {
-        "gamesPlayed": 35,
-        "losses": 15,
+        "gamesPlayed": 37,
+        "losses": 16,
         "otLosses": 6,
-        "pointPctg": 0.485714,
-        "points": 34,
-        "wins": 14
+        "pointPctg": 0.486486,
+        "points": 36,
+        "wins": 15
       },
       "DET": {
-        "gamesPlayed": 34,
-        "losses": 17,
+        "gamesPlayed": 35,
+        "losses": 18,
         "otLosses": 4,
-        "pointPctg": 0.441176,
+        "pointPctg": 0.428571,
         "points": 30,
         "wins": 13
       },
       "MTL": {
-        "gamesPlayed": 34,
+        "gamesPlayed": 35,
         "losses": 17,
         "otLosses": 3,
-        "pointPctg": 0.455882,
-        "points": 31,
-        "wins": 14
-      },
-      "NYI": {
-        "gamesPlayed": 35,
-        "losses": 15,
-        "otLosses": 7,
         "pointPctg": 0.471429,
         "points": 33,
-        "wins": 13
+        "wins": 15
+      },
+      "NYI": {
+        "gamesPlayed": 36,
+        "losses": 15,
+        "otLosses": 7,
+        "pointPctg": 0.486111,
+        "points": 35,
+        "wins": 14
       },
       "NYR": {
-        "gamesPlayed": 34,
-        "losses": 17,
+        "gamesPlayed": 35,
+        "losses": 18,
         "otLosses": 1,
-        "pointPctg": 0.485294,
+        "pointPctg": 0.471429,
         "points": 33,
         "wins": 16
       },
       "OTT": {
-        "gamesPlayed": 34,
-        "losses": 14,
+        "gamesPlayed": 35,
+        "losses": 15,
         "otLosses": 2,
-        "pointPctg": 0.558824,
+        "pointPctg": 0.542857,
         "points": 38,
         "wins": 18
       },
       "PHI": {
-        "gamesPlayed": 35,
-        "losses": 16,
-        "otLosses": 4,
-        "pointPctg": 0.485714,
-        "points": 34,
-        "wins": 15
-      },
-      "PIT": {
-        "gamesPlayed": 36,
-        "losses": 15,
-        "otLosses": 5,
-        "pointPctg": 0.513889,
-        "points": 37,
-        "wins": 16
-      },
-      "TBL": {
-        "gamesPlayed": 32,
-        "losses": 11,
-        "otLosses": 2,
-        "pointPctg": 0.625,
-        "points": 40,
-        "wins": 19
-      }
-    },
-    "Metropolitan": {
-      "CAR": {
-        "gamesPlayed": 34,
-        "losses": 12,
-        "otLosses": 1,
-        "pointPctg": 0.632353,
-        "points": 43,
-        "wins": 21
-      },
-      "NJD": {
-        "gamesPlayed": 37,
-        "losses": 11,
-        "otLosses": 3,
-        "pointPctg": 0.662162,
-        "points": 49,
-        "wins": 23
-      },
-      "WSH": {
-        "gamesPlayed": 34,
-        "losses": 9,
-        "otLosses": 2,
-        "pointPctg": 0.705882,
-        "points": 48,
-        "wins": 23
-      }
-    },
-    "Pacific": {
-      "EDM": {
-        "gamesPlayed": 34,
-        "losses": 11,
-        "otLosses": 2,
-        "pointPctg": 0.647059,
-        "points": 44,
-        "wins": 21
-      },
-      "LAK": {
-        "gamesPlayed": 34,
-        "losses": 10,
-        "otLosses": 5,
-        "pointPctg": 0.632353,
-        "points": 43,
-        "wins": 19
-      },
-      "VGK": {
-        "gamesPlayed": 34,
-        "losses": 8,
-        "otLosses": 3,
-        "pointPctg": 0.720588,
-        "points": 49,
-        "wins": 23
-      }
-    },
-    "Western": {
-      "ANA": {
-        "gamesPlayed": 33,
-        "losses": 16,
-        "otLosses": 4,
-        "pointPctg": 0.454545,
-        "points": 30,
-        "wins": 13
-      },
-      "CGY": {
-        "gamesPlayed": 34,
-        "losses": 11,
-        "otLosses": 7,
-        "pointPctg": 0.573529,
-        "points": 39,
-        "wins": 16
-      },
-      "CHI": {
-        "gamesPlayed": 35,
-        "losses": 21,
-        "otLosses": 2,
-        "pointPctg": 0.371429,
-        "points": 26,
-        "wins": 12
-      },
-      "DAL": {
-        "gamesPlayed": 33,
-        "losses": 13,
-        "otLosses": 0,
-        "pointPctg": 0.606061,
-        "points": 40,
-        "wins": 20
-      },
-      "NSH": {
-        "gamesPlayed": 35,
-        "losses": 17,
-        "otLosses": 7,
-        "pointPctg": 0.414286,
-        "points": 29,
-        "wins": 11
-      },
-      "SEA": {
-        "gamesPlayed": 36,
-        "losses": 19,
-        "otLosses": 2,
-        "pointPctg": 0.444444,
-        "points": 32,
-        "wins": 15
-      },
-      "SJS": {
-        "gamesPlayed": 37,
-        "losses": 20,
-        "otLosses": 6,
-        "pointPctg": 0.378378,
-        "points": 28,
-        "wins": 11
-      },
-      "STL": {
         "gamesPlayed": 36,
         "losses": 16,
         "otLosses": 4,
@@ -1655,20 +1479,154 @@
         "points": 36,
         "wins": 16
       },
-      "UTA": {
-        "gamesPlayed": 34,
+      "PIT": {
+        "gamesPlayed": 37,
+        "losses": 16,
+        "otLosses": 5,
+        "pointPctg": 0.5,
+        "points": 37,
+        "wins": 16
+      },
+      "TBL": {
+        "gamesPlayed": 33,
+        "losses": 11,
+        "otLosses": 2,
+        "pointPctg": 0.636364,
+        "points": 42,
+        "wins": 20
+      }
+    },
+    "Metropolitan": {
+      "CAR": {
+        "gamesPlayed": 36,
+        "losses": 13,
+        "otLosses": 1,
+        "pointPctg": 0.625,
+        "points": 45,
+        "wins": 22
+      },
+      "NJD": {
+        "gamesPlayed": 39,
         "losses": 12,
+        "otLosses": 3,
+        "pointPctg": 0.653846,
+        "points": 51,
+        "wins": 24
+      },
+      "WSH": {
+        "gamesPlayed": 35,
+        "losses": 9,
+        "otLosses": 2,
+        "pointPctg": 0.714286,
+        "points": 50,
+        "wins": 24
+      }
+    },
+    "Pacific": {
+      "EDM": {
+        "gamesPlayed": 35,
+        "losses": 11,
+        "otLosses": 3,
+        "pointPctg": 0.642857,
+        "points": 45,
+        "wins": 21
+      },
+      "LAK": {
+        "gamesPlayed": 35,
+        "losses": 10,
+        "otLosses": 5,
+        "pointPctg": 0.642857,
+        "points": 45,
+        "wins": 20
+      },
+      "VGK": {
+        "gamesPlayed": 35,
+        "losses": 8,
+        "otLosses": 3,
+        "pointPctg": 0.728571,
+        "points": 51,
+        "wins": 24
+      }
+    },
+    "Western": {
+      "ANA": {
+        "gamesPlayed": 34,
+        "losses": 17,
+        "otLosses": 4,
+        "pointPctg": 0.441176,
+        "points": 30,
+        "wins": 13
+      },
+      "CGY": {
+        "gamesPlayed": 35,
+        "losses": 11,
+        "otLosses": 7,
+        "pointPctg": 0.585714,
+        "points": 41,
+        "wins": 17
+      },
+      "CHI": {
+        "gamesPlayed": 36,
+        "losses": 22,
+        "otLosses": 2,
+        "pointPctg": 0.361111,
+        "points": 26,
+        "wins": 12
+      },
+      "DAL": {
+        "gamesPlayed": 34,
+        "losses": 13,
+        "otLosses": 1,
+        "pointPctg": 0.602941,
+        "points": 41,
+        "wins": 20
+      },
+      "NSH": {
+        "gamesPlayed": 36,
+        "losses": 18,
+        "otLosses": 7,
+        "pointPctg": 0.402778,
+        "points": 29,
+        "wins": 11
+      },
+      "SEA": {
+        "gamesPlayed": 37,
+        "losses": 19,
+        "otLosses": 2,
+        "pointPctg": 0.459459,
+        "points": 34,
+        "wins": 16
+      },
+      "SJS": {
+        "gamesPlayed": 39,
+        "losses": 22,
         "otLosses": 6,
-        "pointPctg": 0.558824,
+        "pointPctg": 0.358974,
+        "points": 28,
+        "wins": 11
+      },
+      "STL": {
+        "gamesPlayed": 37,
+        "losses": 16,
+        "otLosses": 4,
+        "pointPctg": 0.513514,
+        "points": 38,
+        "wins": 17
+      },
+      "UTA": {
+        "gamesPlayed": 35,
+        "losses": 13,
+        "otLosses": 6,
+        "pointPctg": 0.542857,
         "points": 38,
         "wins": 16
       },
       "VAN": {
-        "gamesPlayed": 34,
+        "gamesPlayed": 35,
         "losses": 10,
-        "otLosses": 7,
-        "pointPctg": 0.602941,
-        "points": 41,
+        "otLosses": 8,
+        "pointPctg": 0.6,
+        "points": 42,
         "wins": 17
       }
     }
