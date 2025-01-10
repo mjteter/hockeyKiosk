@@ -4,3 +4,7 @@
 /.idea/
 /.venv/
 
+
+/config.json
+/logs/latest_weather.json
+/default.theme

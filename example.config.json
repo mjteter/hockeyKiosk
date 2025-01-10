@@ -18,7 +18,7 @@
   "LOCALE": {
     "ISO": "en_US"
   },
-  "THEME": "default.theme",
+  "THEME": "dark.theme",
   "TIMER": {
     "UPDATE": 420,
     "RELOAD": 60
