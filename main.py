@@ -108,13 +108,13 @@ try:
     # if you do local development you can add a mock server (e.g. from postman.io our your homebrew solution)
     # simple add this variables to your config.json to save api-requests
     # or to create your own custom test data for your own dashboard views)
-    if config['ENV'] == 'DEV':
+    if config['ENV'].upper() == 'DEV':
         SERVER = config['MOCKSERVER_URL']
         HEADERS = {'X-Api-Key': f'{config["MOCKSERVER_API_KEY"]}'}
 
-    elif config['ENV'] == 'STAGE':
+    elif config['ENV'].upper() == 'STAGE':
         pass
-    elif config['ENV'] == 'Pi':
+    elif config['ENV'].upper() == 'PI':
         if config['DISPLAY']['FRAMEBUFFER'] is not False and config['DISPLAY']['ADD_ENV_VARS']:
             # using the dashboard on a raspberry with TFT displays might make this necessary
             os.putenv('SDL_FBDEV', config['DISPLAY']['FRAMEBUFFER'])
